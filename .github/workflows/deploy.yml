@@ -26,4 +26,3 @@ jobs:
       - name: Deploy to S3
         run: |
           aws s3 sync ./public s3://your-bucket --delete
-          aws cloudfront create-invalidation --distribution-id YOUR_DISTRIBUTION_ID --paths "/*"
