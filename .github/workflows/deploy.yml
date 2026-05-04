@@ -13,9 +13,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Hugo / Astro
-        # Add your build steps here (npm install && npm run build for Astro)
-
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
