@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: lrozehnal/mplexia.com   # ← CHANGE TO YOUR REPO
+  repo: lrozehnal/mplexia.com   # ← Change this to your actual repo
   branch: main
 
 media_folder: "static/images/uploads"
@@ -17,5 +17,5 @@ collections:
       - {label: "Publish Date", name: "date", widget: "datetime", default: "{{now}}"}
       - {label: "Featured Image", name: "image", widget: "image"}
       - {label: "Excerpt", name: "excerpt", widget: "text"}
-      - {label: "Tags", name: "tags", widget: "list"}
+      - {label: "Tags", name: "tags", widget: "list", default: ["aws"]}
       - {label: "Body", name: "body", widget: "markdown"}
