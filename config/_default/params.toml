@@ -55,7 +55,7 @@ forgejoDefaultServer = "https://v11.next.forgejo.org"
 [logo]
   # Leave path empty = no image, just text
   # path = ""
-  #alt = "Mplexia"
+  # alt = "Mplexia"
 
 [homepage]
   layout = "hero" # valid options: page, profile, hero, card, background, custom
