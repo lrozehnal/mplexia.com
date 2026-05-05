@@ -52,6 +52,7 @@ cat file1 | socat - TCP:remotehost:12345
 ```
 
 That’s it. You just copied a file over the network as easily as cat file1 > file2.
+![simple copy](/images/posts/002-i-wanred-but-socat/Canvas1.png)
 
 ### More Advanced: UDP → TCP Proxy
 
@@ -72,6 +73,7 @@ And finally on the **sending side** (localhost):
 ```bash
 cat file1 | socat -u - UDP:proxy:54321
 ```
+![copy via tcp-udp proxy](/images/posts/002-i-wanred-but-socat/Canvas2.png)
 
 That's it - we just sent the file over UDP and TCP glued together by the TCP-to-UDP proxy.
 
@@ -90,6 +92,7 @@ and then just:
 ssh -p2222 localhost
 ```
 ### !SSH OVER UDP! 🎉
+![ssh via udp](/images/posts/002-i-wanred-but-socat/Canvas3.png)
 
 ## Why This Matters
 
