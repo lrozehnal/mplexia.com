@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tcp on Mplexia</title>
+    <link>http://localhost:1313/tags/tcp/</link>
+    <description>Recent content in Tcp on Mplexia</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <managingEditor>l.rozehnal@mplexia.com (Ludek Rozehnal)</managingEditor>
+    <webMaster>l.rozehnal@mplexia.com (Ludek Rozehnal)</webMaster>
+    <copyright>© 2026 Ludek Rozehnal</copyright>
+    <lastBuildDate></lastBuildDate><atom:link href="http://localhost:1313/tags/tcp/index.xml" rel="self" type="application/rss+xml" />
+    
+  </channel>
+</rss>
