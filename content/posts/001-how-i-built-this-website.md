@@ -8,41 +8,65 @@ tags = ["beginning", "gitops", "hugo", "markup", "aws", "s3", "github-actions", 
 
 # How I Built This Website
 
-... and just like that, here we go...
+… and just like that, here we are.
 
-## WHY
-Few months ago, I decided to quit my corporate job - for various reasons the 'whys' however is a topic for another time - and go fully remote and fully contractor to.... help others with connectivity I guess - my initial thinking was that as I met many other organization which experience certain difficulties with connectivity especially with hybrid cloud, there must be tons and tons of opportunities for me to resolve those issues, right? well, wrong... 
-After my last day, I took two months of holiday (mainly dealing with other issues) and as April started, I (re)created my limited company, updated my CV, clicked 'Open to' on LinkedIn and ... nothing happened... I pinged several recruiters and many ex-colleagues got few very friendly calls but ... nothing really happened... I created multiple profiles on multiple specialized websites, and ... nothing happened... after quick consultation with AI, the obvious suspicion become  painfully clear - "the portfolio" - big fat ZERO... nobody out there cares about what cool stuff I've done behind closed door of corporations...  so, let's showoff a thing or two
+## Why This Website?
 
+A few months ago I decided to leave my corporate job and go fully independent as a contractor, specialising in AWS Cloud Networking, Terraform, and GitOps.
 
-## WEBSITE
-I already have a private AWS account, so (manually) registering a new domain mplexia.com for my entrepreneurial adventure is super easy. I know that I can publish a static website website via S3 bucket and so as the second step I (manually) create S3 bucket and upload manually (uff) helloworld.html and after few click and pointing my DNS to the S3 bucket ... boom .. the magic happens, the hello world...  
+My plan was simple: there must be plenty of companies struggling with hybrid cloud connectivity — surely they need help, right?
+
+**Reality check**: nothing happened.
+
+I updated my LinkedIn, reached out to recruiters, refreshed my CV, created profiles on specialist platforms… and got almost zero traction.
+After talking to AI and a few friends, the message was crystal clear:  
+**“Nobody cares about the cool stuff you did behind corporate walls. You need a portfolio.”** 
+This would basically mean to re-built and re-document everything I did in the last 10 years, which is a bit of a nightmare, but at least I can start with something simple: this website.
+
+So I decided to build one — publicly.
+
+## Phase 1: The Quick & Dirty Static Site
+
+I already had a personal AWS account, so:
+
+1. Registered `mplexia.com`
+2. Created an S3 bucket
+3. Uploaded a simple `index.html`
+
+(manual clicks, ugh) and pointed the DNS to the bucket.
 
 ![hello world](/images/posts/001-how-i-built-this-website/helloworld.png)
 
-But I need a website, so .. 'hey grok' and few minutes later I am provided with single index.html about what I think how awesome I am - which - surprisingly - doesn't look bad at all. Another quick interaction with grok and the integration with calendly.com is in place... quick test ... and it's working like a charm...
-Copying the index.html file via web GUI is terrible... I am sorry too old/lazy for click-ops.. 
+A quick chat with Grok gave me a decent-looking single-page site + Calendly integration. A few more clicks and the site was live. (single index.html, but hey, it’s a start!)
 
-![aws s3 cp](/images/posts/001-how-i-built-this-website/initialweb.png)
+But manually uploading files via the AWS Console felt painful.
 
-Fortunately there's this AWS CLI -  https://aws.amazon.com/cli/ - so instead of uploading the index.html via gui, let use the command-line - it's super easy and powerful:
-I need to generate AWS access keys, update the awscli profile file (the awscli was already installed)  and here we go: 
 
-![aws s3 cp](/images/posts/001-how-i-built-this-website/awscli s3 cp.png)
+### Enter AWS CLI
 
-I am able to copy files from my local device directly into AWS S3 bucket and it's update the whole website... Something like this:
+Instead of click-ops, I started using the command line:
 
-![initial workflow](/images/posts/001-how-i-built-this-website/001-how-i-built-this-webserver-pic1.png)
+```bash
+aws s3 cp index.html s3://mplexia.com/ 
+```
 
-But... there's always some "but", right? ... but .. I'd like to add some other system which I can use to improve the workflow even more ... a) I'd like to add some kind of content-management-system (CMS), b) I don't want to rely solely on my laptop and c) I want to be future prove and so I'd need to add some git repository... ideally one which can do a bit of CI/CD... why ... well, I don't want to 'copy files around' I want .. the automation do it for me ... Let's use github - personal decision - I know gitlab ci/cd but I've never worked with Github's Actions so I will learn something new and I already have an account at github... So the would be the initial plan:
+This was a game-changer. I could update the site with a simple command, no more manual uploads.
 
-![introducing git](/images/posts/001-how-i-built-this-website/001-how-i-built-this-webserver-pic2.png)
 
-And now I need to add the github action: whenever I update the code (single index.html for now) and do 'git push', I need github to update the file(s) in S3 as well...
+## Phase 2: Adding Automation (GitOps Style)
+
+I wanted three things: 
+- A proper way to manage content
+- Ability to work from any computer
+- Full automation (no more manual uploads)
+
+So I added:
+- GitHub as the source of truth
+- GitHub Actions to automatically deploy to S3 on every git push
+
+Here's the workflow:
 
 ![using git](/images/posts/001-how-i-built-this-website/001-how-i-built-this-webserver-pic3.png)
-
-After few minutes, this is what I got to be added  as some.yaml to .github/workflow/
 
 ```
 name: Deploy to S3
@@ -55,11 +79,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-#    environment: production
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -69,35 +90,46 @@ jobs:
           aws-region: eu-west-1
 
       - name: Deploy to S3
-        run: |
-          aws s3 sync ./public s3://mplexia.com --delete
+        run: aws s3 sync ./public s3://mplexia.com --delete
 ```
+just to be added into .github/workflows/some.yaml and we are good to go.
 
-
-And here my the worries come: I need to upload my AWS access key to github so github can access my S3 bucket to publish the changes .. in other words to make my key (semi) public. Technically ANYONE can see those???  Apparently not - I quickly tested those and I am going to trust the documentation - very nice read! https://docs.github.com/en/actions  unless those are leaked within the run GitHub Action -  Oh my, the individual workflows are fully PUBLIC!!! my corporate-tuned brain goes mad... at least people has to log in to see the logs... and the keys are not leaked within the logs... OIDC is definitely on the menu here ... later ...
-
-So this is how the simple workflow looks like:
-
-and this is how to logs from github action looks like - no AWS key leaks 
+I must admit, the idea of uploading 'some code' and my private AWS keys somewhere on the internet made me a bit nervous at first, but after reading GitHub’s documentation and testing it out, I felt comfortable enough to proceed.
+( I doublechecked the github action logs, when the keys are not leaked if handled properly as environmental variables )
 
 ![git actions log](/images/posts/001-how-i-built-this-website/gitactionlogs.png)
+ 
+ But OIDC is definitely on the menu for future improvements to avoid any potential risks with static keys.
 
-## CMS
-Now I need to publish this my very first articles - hence I need some CMS app ... however I really like to utilize S3-backed static website - so I need something like server-side-static CMS... ?  quick lookup and it seems there's something call 'hugo' - https://gohugo.io/  the installation is pretty easy, it's just a "sudo port install hugo" on my laptop and just follow https://gohugo.io/getting-started/quick-start/ 
-It seems I need to use a theme for markup ... and I am getting out of my waters here .. but it's not that difficult - after quick consultation I decided to go with blowfish ... it's just a markup, right? https://www.markdownguide.org/basic-syntax/  
-Anyway, after several minutes to original page is rewritten as a text in markup (oh my, that's so ugly now ) and ready to be publish ... let's try ...  oh my ... the magic is back - it just works, the gitops is amazing , it's just 'git add / commit / push' and ... it's done...
+ ## Phase 3: Moving to Hugo + Blowfish
+ 
+Manually editing index.html is not sustainable if I want to write articles.
+After some research (hey grok) I chose:
+- Hugo — extremely fast static site generator
+- Blowfish — modern, clean, and highly customizable theme
 
-## This article
-Ok, this is something I am failing, I don't know how to publish articles - with picture ... this - at least for now - is a bit of pain - but no pain no gain, right? Ultimately, I need to run hugo
-```
-lrozehnal@mplex mplexia.com % hugo new posts/001-how-i-built-this-website.md
-WARN  deprecated: project config key languageCode was deprecated in Hugo v0.158.0 and will be removed in a future release. Use locale instead.
-WARN  Module "blowfish" is not compatible with this Hugo version: 0.141.0/0.160.1 extended; run "hugo mod graph" for more information.
-Content "/Users/lrozehnal/git/mplexia.com/content/posts/001-how-i-built-this-website.md" created
-lrozehnal@mplex mplexia.com %
-```
-and re-write the prepared article in markup, and link pictures and job done?? (ok this is definitely I need to learn to be better as this took me the longest but ... here we are!!)
+Installation was straightforward (sudo port install hugo on macOS), and after a short learning curve I migrated the whole site to Markdown. (ugh it looks so ugly at first, but it’s just a matter of getting used to it)
+
+Now publishing a new article is as simple as:
+
+Write in Markdown
+git add .
+git commit -m "Add new article"
+git push
+
+…and GitHub Actions does the rest ... well it worked with single file, why it shouldn't work with multiple files, right?
+
+## To be done later
+
+- Well, I really hate there's no TLS/SSL -  I guess I can add CloudFront in front of S3 (static website using S3 can't do SSL natively) and get free TLS certs from AWS Certificate Manager, right?
+- I created many things manually, this needs to be terraformed all the way around - at least the S3 bucket and the DNS record, right? (what about git repository, the IAM role , the github action ... )
+- The built of the website ( hugo build ) should be part of the github action, not something I do locally and then push the generated files to git - that's just wrong, right?
+- Can Github Actions do OIDC to get temporary AWS credentials instead of using static keys? I guess it can, but I need to learn how to do it - that's definitely on the menu for future improvements.
+
+## Conclusion
+
+This was a fun and educational project to get my website up and running. It’s not perfect, but it’s a start — and it’s fully automated with GitOps principles. And most importantly, it’s a platform to share my knowledge and experience with the world, and hopefully attract some interesting projects along the way. So stay tuned for more articles about AWS, Terraform, GitOps, and all things cloud networking!
 
 
 ## Git repo
-as some people would ask - show me your code - here you are: https://github.com/lrozehnal/mplexia.com 
+and as some people would say - show me your code - here you are: https://github.com/lrozehnal/mplexia.com 
