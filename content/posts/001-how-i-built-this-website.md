@@ -55,8 +55,9 @@ This was a game-changer. I could update the site with a simple command, no more 
 
 ## Phase 2: Adding Automation (GitOps Style)
 
-I wanted three things: 
+I wanted several things: 
 - A proper way to manage content
+- An option to see previous version of the site (version control)
 - Ability to work from any computer
 - Full automation (no more manual uploads)
 
@@ -133,3 +134,10 @@ This was a fun and educational project to get my website up and running. It’s 
 
 ## Git repo
 and as some people would say - show me your code - here you are: https://github.com/lrozehnal/mplexia.com 
+
+## Lessons Learned
+
+- Going independent is harder than I expected.
+- A strong public portfolio really matters.
+- Once you taste proper GitOps automation, you never want to go back to manual work.
+- Hugo + Blowfish seems like an excellent combo for technical blogs.
