@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: http://mplexia.com/sitemap.xml
