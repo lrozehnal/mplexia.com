@@ -55,7 +55,7 @@ forgejoDefaultServer = "https://v11.next.forgejo.org"
 [logo]
   # Leave path empty = no image, just text
   # path = ""
-  # alt = "Mplexia"
+  #   alt = "Mplexia"
 
 [homepage]
   layout = "hero" # valid options: page, profile, hero, card, background, custom
@@ -76,7 +76,7 @@ forgejoDefaultServer = "https://v11.next.forgejo.org"
   showDateOnlyInArticle = false
   showDateUpdated = false
   showAuthor = true
-  # showAuthorBottom = false
+  showAuthorBottom = true
   showHero = false
   # heroStyle = "basic" # valid options: basic, big, background, thumbAndBackground
   layoutBackgroundBlur = true # only used when heroStyle equals background or thumbAndBackground

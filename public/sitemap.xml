@@ -3,25 +3,25 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
   <url>
-    <loc>http://localhost:1313/</loc>
+    <loc>http://mplexia.com/</loc>
     <lastmod>2026-05-05T19:00:00+02:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://localhost:1313/posts/</loc>
+    <loc>http://mplexia.com/posts/</loc>
     <lastmod>2026-05-05T19:00:00+02:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://localhost:1313/posts/001-how-i-built-this-website/</loc>
+    <loc>http://mplexia.com/posts/001-how-i-built-this-website/</loc>
     <lastmod>2026-05-05T15:56:09+02:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://localhost:1313/about/</loc>
+    <loc>http://mplexia.com/about/</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>

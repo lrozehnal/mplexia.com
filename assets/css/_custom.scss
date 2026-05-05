@@ -1,0 +1,14 @@
+/* Make blog posts full width */
+.article-content .prose,
+.article-content .max-w-prose {
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+/* Optional: even wider on large screens */
+@media (min-width: 1024px) {
+  .article-content .prose,
+  .article-content .max-w-prose {
+    max-width: 95% !important;
+  }
+}

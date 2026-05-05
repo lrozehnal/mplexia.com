@@ -4,7 +4,7 @@
   dir="ltr"
   class="scroll-smooth"
   data-default-appearance="dark"
-  data-auto-appearance="true"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  data-auto-appearance="true"><head>
   <meta charset="utf-8">
   
     <meta http-equiv="content-language" content="en">
@@ -15,8 +15,8 @@
 
   
   
-    <title>Why socat Is My Favorite Networking Tool &middot; Mplexia</title>
-    <meta name="title" content="Why socat Is My Favorite Networking Tool &middot; Mplexia">
+    <title>socat: The Swiss Army Knife of Networking &middot; Mplexia</title>
+    <meta name="title" content="socat: The Swiss Army Knife of Networking &middot; Mplexia">
   
 
   
@@ -28,7 +28,7 @@
   
   
   
-  <link rel="canonical" href="http://localhost:1313/posts/002-i-wanted-but-socat/">
+  <link rel="canonical" href="http://mplexia.com/posts/002-i-wanted-but-socat/">
   
   
 
@@ -63,9 +63,9 @@
   
 
   
-  <meta property="og:url" content="http://localhost:1313/posts/002-i-wanted-but-socat/">
+  <meta property="og:url" content="http://mplexia.com/posts/002-i-wanted-but-socat/">
   <meta property="og:site_name" content="Mplexia">
-  <meta property="og:title" content="Why socat Is My Favorite Networking Tool">
+  <meta property="og:title" content="socat: The Swiss Army Knife of Networking">
   <meta property="og:description" content="A practical introduction to socat — the swiss army knife for turning TCP/UDP into simple data pipes.">
   <meta property="og:locale" content="en">
   <meta property="og:type" content="article">
@@ -80,7 +80,7 @@
 
   
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Why socat Is My Favorite Networking Tool">
+  <meta name="twitter:title" content="socat: The Swiss Army Knife of Networking">
   <meta name="twitter:description" content="A practical introduction to socat — the swiss army knife for turning TCP/UDP into simple data pipes.">
 
   
@@ -232,11 +232,11 @@
     "@context": "https://schema.org",
     "@type": "Article",
     "articleSection": "Posts",
-    "name": "Why socat Is My Favorite Networking Tool",
-    "headline": "Why socat Is My Favorite Networking Tool",
+    "name": "socat: The Swiss Army Knife of Networking",
+    "headline": "socat: The Swiss Army Knife of Networking",
     "description": "A practical introduction to socat — the swiss army knife for turning TCP\/UDP into simple data pipes.",
     "inLanguage": "en",
-    "url" : "http://localhost:1313/posts/002-i-wanted-but-socat/",
+    "url" : "http://mplexia.com/posts/002-i-wanted-but-socat/",
     "author" : {
       "@type": "Person",
       "name": "Ludek Rozehnal"
@@ -257,6 +257,12 @@
 
 
   
+  
+    
+
+
+
+
   
 
   
@@ -626,7 +632,7 @@
     <header id="single_header" class="mt-5 max-w-prose">
       
       <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
-        Why socat Is My Favorite Networking Tool
+        socat: The Swiss Army Knife of Networking
       </h1>
       <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
         
@@ -693,7 +699,149 @@
 
       </div>
       
+    </header>
+
+    
+    <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
+      
+      
+      
+      
+      
+
+
+      <div class="min-w-0 min-h-0 max-w-fit">
         
+
+        <div class="article-content max-w-prose mb-20">
+          
+<h1 class="relative group">socat: The Swiss Army Knife of Networking
+    <div id="socat-the-swiss-army-knife-of-networking" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#socat-the-swiss-army-knife-of-networking" aria-label="Anchor">#</a>
+    </span>
+    
+</h1>
+
+<h2 class="relative group">I Wanted to Talk About Cool Stuff… But First, socat
+    <div id="i-wanted-to-talk-about-cool-stuff-but-first-socat" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#i-wanted-to-talk-about-cool-stuff-but-first-socat" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<p>Today I really wanted to jump into more advanced topics, but I realised I first need to address something fundamental.</p>
+<p><strong>TCP connections are actually very simple.</strong></p>
+<p>Think of them like a phone call:</p>
+<ul>
+<li>You dial → connect</li>
+<li>You talk and listen</li>
+<li>You hang up</li>
+</ul>
+<p>Applications basically do the same thing: they open a socket and just read/write data. Everything else (handshakes, retransmissions, congestion control) is handled by the kernel.</p>
+<p>But what if we could treat a network connection <strong>exactly like a Unix pipe</strong>?</p>
+<p>That’s where <strong><code>socat</code></strong> comes in.</p>
+
+<h2 class="relative group">socat = <code>cat</code> Over the Network
+    <div id="socat--cat-over-the-network" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#socat--cat-over-the-network" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<p><code>socat</code> (short for <strong>SOcket CAT</strong>) lets you create bidirectional byte streams between almost anything: TCP, UDP, files, serial ports, etc.</p>
+
+<h3 class="relative group">Simple File Copy Over TCP
+    <div id="simple-file-copy-over-tcp" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#simple-file-copy-over-tcp" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p>On the <strong>receiving side</strong> (remotehost):</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">socat TCP-LISTEN:12345,fork,reuseaddr - &gt; file2</span></span></code></pre></div></div>
+<p>On the <strong>sending side</strong> (localhost):</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat file1 <span class="p">|</span> socat - TCP:remotehost:12345</span></span></code></pre></div></div>
+<p>That’s it. You just copied a file over the network as easily as cat file1 &gt; file2.</p>
+
+<h3 class="relative group">More Advanced: UDP → TCP Proxy
+    <div id="more-advanced-udp--tcp-proxy" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#more-advanced-udp--tcp-proxy" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<p>On the <strong>receiving side</strong> (remotehost) - that&rsquo;s the same as previous:</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">socat TCP-LISTEN:12345,fork,reuseaddr - &gt; file2</span></span></code></pre></div></div>
+<p>On the <strong>proxy</strong> (middleman):</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">socat -u UDP-LISTEN:54321,fork TCP:remotehost:12345</span></span></code></pre></div></div>
+<p>And finally on the <strong>sending side</strong> (localhost):</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat file1 <span class="p">|</span> socat -u - UDP:proxy:54321</span></span></code></pre></div></div>
+<p>That&rsquo;s it - we just sent the file over UDP and TCP glued together by the TCP-to-UDP proxy.</p>
+
+<h3 class="relative group">Real-World Example: SSH Over UDP
+    <div id="real-world-example-ssh-over-udp" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#real-world-example-ssh-over-udp" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># On remotehost (forward UDP 2222 → local SSH)</span>
+</span></span><span class="line"><span class="cl">socat UDP-LISTEN:2222,reuseaddr,fork TCP:localhost:22
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># On localhost (forward local TCP 2222 → remote UDP)</span>
+</span></span><span class="line"><span class="cl">socat TCP-LISTEN:2222,reuseaddr,fork UDP:remotehost:2222</span></span></code></pre></div></div>
+<p>and then just:</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ssh -p2222 localhost</span></span></code></pre></div></div>
+
+<h3 class="relative group">!SSH OVER UDP! 🎉
+    <div id="ssh-over-udp-" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#ssh-over-udp-" aria-label="Anchor">#</a>
+    </span>
+    
+</h3>
+
+<h2 class="relative group">Why This Matters
+    <div id="why-this-matters" class="anchor"></div>
+    
+    <span
+        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#why-this-matters" aria-label="Anchor">#</a>
+    </span>
+    
+</h2>
+<p><strong><code>socat</code></strong> proves that at the end of the day, most network communication is just streams of bytes. Once you understand that, you can:</p>
+<ul>
+<li>Forward ports creatively</li>
+<li>Build quick proxies and tunnels</li>
+<li>Debug tricky connectivity issues</li>
+<li>Create powerful one-liners</li>
+</ul>
+<p>It really is the Swiss Army knife of networking.</p>
+<p>Many other official examples:  <a href="http://www.dest-unreach.org/socat/doc/socat.html#EXAMPLES"  target="_blank" rel="noreferrer">http://www.dest-unreach.org/socat/doc/socat.html#EXAMPLES</a></p>
+<p>I’ll be showing more advanced socat use cases in future posts (port forwarding, TLS tunnels, relay chains, etc.).</p>
+
+          
+          
+          
+        </div>
+        
+          
   
   
   
@@ -817,151 +965,9 @@
   
 
   
-    <div class="mb-5"></div>
+    <div class="mb-10"></div>
   
 
-      
-    </header>
-
-    
-    <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert lg:flex-row">
-      
-      
-      
-      
-      
-
-
-      <div class="min-w-0 min-h-0 max-w-fit">
-        
-
-        <div class="article-content max-w-prose mb-20">
-          
-<h1 class="relative group">Why socat Is My Favorite Networking Tool
-    <div id="why-socat-is-my-favorite-networking-tool" class="anchor"></div>
-    
-    <span
-        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
-        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#why-socat-is-my-favorite-networking-tool" aria-label="Anchor">#</a>
-    </span>
-    
-</h1>
-
-<h2 class="relative group">I Wanted to Talk About Cool Stuff… But First, socat
-    <div id="i-wanted-to-talk-about-cool-stuff-but-first-socat" class="anchor"></div>
-    
-    <span
-        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
-        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#i-wanted-to-talk-about-cool-stuff-but-first-socat" aria-label="Anchor">#</a>
-    </span>
-    
-</h2>
-<p>Today I really wanted to jump into more advanced topics, but I realised I first need to address something fundamental.</p>
-<p><strong>TCP connections are actually very simple.</strong></p>
-<p>Think of them like a phone call:</p>
-<ul>
-<li>You dial → connect</li>
-<li>You talk and listen</li>
-<li>You hang up</li>
-</ul>
-<p>Applications basically do the same thing: they open a socket and just read/write data. Everything else (handshakes, retransmissions, congestion control) is handled by the kernel.</p>
-<p>But what if we could treat a network connection <strong>exactly like a Unix pipe</strong>?</p>
-<p>That’s where <strong><code>socat</code></strong> comes in.</p>
-
-<h2 class="relative group">socat = <code>cat</code> Over the Network
-    <div id="socat--cat-over-the-network" class="anchor"></div>
-    
-    <span
-        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
-        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#socat--cat-over-the-network" aria-label="Anchor">#</a>
-    </span>
-    
-</h2>
-<p><code>socat</code> (short for <strong>SOcket CAT</strong>) lets you create bidirectional byte streams between almost anything: TCP, UDP, files, serial ports, etc.</p>
-
-<h3 class="relative group">Simple File Copy Over TCP
-    <div id="simple-file-copy-over-tcp" class="anchor"></div>
-    
-    <span
-        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
-        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#simple-file-copy-over-tcp" aria-label="Anchor">#</a>
-    </span>
-    
-</h3>
-<p>On the <strong>receiving side</strong> (remotehost):</p>
-<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">socat TCP-LISTEN:12345,fork,reuseaddr - &gt; file2</span></span></code></pre></div></div>
-<p>On the <strong>sending side</strong> (localhost):</p>
-<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat file1 <span class="p">|</span> socat - TCP:remotehost:12345</span></span></code></pre></div></div>
-<p>That’s it. You just copied a file over the network as easily as cat file1 &gt; file2.</p>
-
-<h3 class="relative group">More Advanced: UDP → TCP Proxy
-    <div id="more-advanced-udp--tcp-proxy" class="anchor"></div>
-    
-    <span
-        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
-        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#more-advanced-udp--tcp-proxy" aria-label="Anchor">#</a>
-    </span>
-    
-</h3>
-<p>On the <strong>receiving side</strong> (remotehost) - that&rsquo;s the same as previous:</p>
-<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">socat TCP-LISTEN:12345,fork,reuseaddr - &gt; file2</span></span></code></pre></div></div>
-<p>On the <strong>proxy</strong> (middleman):</p>
-<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">socat -u UDP-LISTEN:54321,fork TCP:remotehost:12345</span></span></code></pre></div></div>
-<p>And finally on the <strong>sending side</strong> (localhost):</p>
-<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat file1 <span class="p">|</span> socat -u - UDP:proxy:54321</span></span></code></pre></div></div>
-<p>That&rsquo;s it - we just sent the file over UDP and TCP glued together by the TCP-to-UDP proxy.</p>
-
-<h3 class="relative group">Real-World Example: SSH Over UDP
-    <div id="real-world-example-ssh-over-udp" class="anchor"></div>
-    
-    <span
-        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
-        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#real-world-example-ssh-over-udp" aria-label="Anchor">#</a>
-    </span>
-    
-</h3>
-<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># On remotehost (forward UDP 2222 → local SSH)</span>
-</span></span><span class="line"><span class="cl">socat UDP-LISTEN:2222,reuseaddr,fork TCP:localhost:22
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># On localhost (forward local TCP 2222 → remote UDP)</span>
-</span></span><span class="line"><span class="cl">socat TCP-LISTEN:2222,reuseaddr,fork UDP:remotehost:2222</span></span></code></pre></div></div>
-<p>and then just:</p>
-<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ssh -p2222 localhost</span></span></code></pre></div></div>
-
-<h3 class="relative group">!SSH OVER UDP! 🎉
-    <div id="ssh-over-udp-" class="anchor"></div>
-    
-    <span
-        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
-        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#ssh-over-udp-" aria-label="Anchor">#</a>
-    </span>
-    
-</h3>
-
-<h2 class="relative group">Why This Matters
-    <div id="why-this-matters" class="anchor"></div>
-    
-    <span
-        class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
-        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#why-this-matters" aria-label="Anchor">#</a>
-    </span>
-    
-</h2>
-<p><strong><code>socat</code></strong> proves that at the end of the day, most network communication is just streams of bytes. Once you understand that, you can:</p>
-<ul>
-<li>Forward ports creatively</li>
-<li>Build quick proxies and tunnels</li>
-<li>Debug tricky connectivity issues</li>
-<li>Create powerful one-liners</li>
-</ul>
-<p>It really is the Swiss Army knife of networking.</p>
-<p>Many other official examples:  <a href="http://www.dest-unreach.org/socat/doc/socat.html#EXAMPLES"  target="_blank" rel="noreferrer">http://www.dest-unreach.org/socat/doc/socat.html#EXAMPLES</a></p>
-<p>I’ll be showing more advanced socat use cases in future posts (port forwarding, TLS tunnels, relay chains, etc.).</p>
-
-          
-          
-          
-        </div>
         
         
 
@@ -1045,7 +1051,7 @@
 <div
   id="search-wrapper"
   class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh] z-500"
-  data-url="http://localhost:1313/">
+  data-url="http://mplexia.com/">
   <div
     id="search-modal"
     class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800">

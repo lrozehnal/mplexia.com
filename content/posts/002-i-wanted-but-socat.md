@@ -1,5 +1,5 @@
 +++
-title = "Why socat Is My Favorite Networking Tool"
+title = "socat: The Swiss Army Knife of Networking"
 date = '2026-05-05T19:00:00+02:00'
 draft = false
 description = "A practical introduction to socat — the swiss army knife for turning TCP/UDP into simple data pipes."
@@ -15,7 +15,7 @@ noindex = true
 robots = "noindex, nofollow"
 +++
 
-# Why socat Is My Favorite Networking Tool
+# socat: The Swiss Army Knife of Networking
 
 ## I Wanted to Talk About Cool Stuff… But First, socat
 
