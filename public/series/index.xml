@@ -2,14 +2,14 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Series on Mplexia</title>
-    <link>http://mplexia.com/series/</link>
+    <link>http://localhost:1313/series/</link>
     <description>Recent content in Series on Mplexia</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <managingEditor>l.rozehnal@mplexia.com (Ludek Rozehnal)</managingEditor>
     <webMaster>l.rozehnal@mplexia.com (Ludek Rozehnal)</webMaster>
     <copyright>© 2026 Ludek Rozehnal</copyright>
-    <atom:link href="http://mplexia.com/series/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/series/index.xml" rel="self" type="application/rss+xml" />
     
   </channel>
 </rss>

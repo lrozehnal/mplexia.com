@@ -5,7 +5,6 @@ title = 'How I Built This Website'
 description = "Quick write-up how I built this to-be-awsome website using Hugo, and AWS S3 hosting utilising GitHub Actions for CI/CD automation."
 tags = ["beginning", "gitops", "hugo", "markup", "aws", "s3", "github-actions", "aws cli", "ci/cd", "automation"]
 +++
-
 # How I Built This Website
 
 … and just like that, here we are.
@@ -140,4 +139,4 @@ and as some people would say - show me your code - here you are: https://github.
 - Going independent is harder than I expected.
 - A strong public portfolio really matters.
 - Once you taste proper GitOps automation, you never want to go back to manual work.
-- Hugo + Blowfish seems like an excellent combo for technical blogs.
+- Hugo + Blowfish seems like an excellent combo for technical blogs.	
