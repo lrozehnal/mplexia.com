@@ -15,7 +15,6 @@ noindex = true
 robots = "noindex, nofollow"
 +++
 
-# socat: The Swiss Army Knife of Networking
 
 ## I Wanted to Talk About Cool Stuff… But First, socat
 
