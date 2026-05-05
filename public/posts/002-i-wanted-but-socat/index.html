@@ -767,7 +767,7 @@
     decoding="async"
     fetchpriority="low"
     alt="simple copy"
-    src="/images/posts/002-i-wanred-but-socat/Canvas1.png"
+    src="/images/posts/002-i-wanted-but-socat/Canvas1.png"
     ></figure>
 </p>
 
@@ -786,15 +786,16 @@
 <div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">socat -u UDP-LISTEN:54321,fork TCP:remotehost:12345</span></span></code></pre></div></div>
 <p>And finally on the <strong>sending side</strong> (localhost):</p>
 <div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat file1 <span class="p">|</span> socat -u - UDP:proxy:54321</span></span></code></pre></div></div>
+<p>That&rsquo;s it - we just sent the file over UDP and TCP glued together by the TCP-to-UDP proxy.
 <figure><img
     class="my-0 rounded-md"
     loading="lazy"
     decoding="async"
     fetchpriority="low"
     alt="copy via tcp-udp proxy"
-    src="/images/posts/002-i-wanred-but-socat/Canvas2.png"
+    src="/images/posts/002-i-wanted-but-socat/Canvas2.png"
     ></figure>
-<p>That&rsquo;s it - we just sent the file over UDP and TCP glued together by the TCP-to-UDP proxy.</p>
+</p>
 
 <h3 class="relative group">Real-World Example: SSH Over UDP
     <div id="real-world-example-ssh-over-udp" class="anchor"></div>
@@ -828,7 +829,7 @@
     decoding="async"
     fetchpriority="low"
     alt="ssh via udp"
-    src="/images/posts/002-i-wanred-but-socat/Canvas3.png"
+    src="/images/posts/002-i-wanted-but-socat/Canvas3.png"
     ></figure>
 
 <h2 class="relative group">Why This Matters
