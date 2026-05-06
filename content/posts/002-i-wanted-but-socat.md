@@ -1,18 +1,9 @@
 +++
 title = "socat: The Swiss Army Knife of Networking"
-date = '2026-05-05T19:00:00+02:00'
+date = '2026-05-06T17:00:00+02:00'
 draft = false
 description = "A practical introduction to socat — the swiss army knife for turning TCP/UDP into simple data pipes."
 tags = ["socat", "networking", "tcp", "udp", "linux"]
-
-private = true
-unlisted = true
-[build]
-  list = 'never'
-
-# Extra protection from search engines
-noindex = true
-robots = "noindex, nofollow"
 +++
 
 
