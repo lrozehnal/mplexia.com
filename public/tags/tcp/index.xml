@@ -9,7 +9,17 @@
     <managingEditor>l.rozehnal@mplexia.com (Ludek Rozehnal)</managingEditor>
     <webMaster>l.rozehnal@mplexia.com (Ludek Rozehnal)</webMaster>
     <copyright>© 2026 Ludek Rozehnal</copyright>
-    <lastBuildDate></lastBuildDate><atom:link href="http://mplexia.com/tags/tcp/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 06 May 2026 17:00:00 +0200</lastBuildDate><atom:link href="http://mplexia.com/tags/tcp/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>socat: The Swiss Army Knife of Networking</title>
+      <link>http://mplexia.com/posts/002-i-wanted-but-socat/</link>
+      <pubDate>Wed, 06 May 2026 17:00:00 +0200</pubDate>
+      <author>l.rozehnal@mplexia.com (Ludek Rozehnal)</author>
+      <guid>http://mplexia.com/posts/002-i-wanted-but-socat/</guid>
+      <description></description>
+      
+    </item>
     
   </channel>
 </rss>
