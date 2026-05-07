@@ -1,7 +1,7 @@
 +++
-title = '003 Socat and Multicast'
+title = 'Socat and Multicast'
 date = '2026-05-07T11:00:00+02:00'
-draft = false
+draft = true
 tags = ["socat", "networking", "tcp", "udp", "linux","multicast"]
 description = "Quick demonstration how to use socat to bypass the part of network which doesn't support multicast"
 +++

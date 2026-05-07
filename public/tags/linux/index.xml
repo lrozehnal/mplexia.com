@@ -9,17 +9,7 @@
     <managingEditor>l.rozehnal@mplexia.com (Ludek Rozehnal)</managingEditor>
     <webMaster>l.rozehnal@mplexia.com (Ludek Rozehnal)</webMaster>
     <copyright>© 2026 Ludek Rozehnal</copyright>
-    <lastBuildDate>Thu, 07 May 2026 11:00:00 +0200</lastBuildDate><atom:link href="http://mplexia.com/tags/linux/index.xml" rel="self" type="application/rss+xml" />
-    
-    <item>
-      <title>003 Socat and Multicast</title>
-      <link>http://mplexia.com/posts/003-socat-and-multicast/</link>
-      <pubDate>Thu, 07 May 2026 11:00:00 +0200</pubDate>
-      <author>l.rozehnal@mplexia.com (Ludek Rozehnal)</author>
-      <guid>http://mplexia.com/posts/003-socat-and-multicast/</guid>
-      <description></description>
-      
-    </item>
+    <lastBuildDate>Wed, 06 May 2026 17:00:00 +0200</lastBuildDate><atom:link href="http://mplexia.com/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>socat: The Swiss Army Knife of Networking</title>
