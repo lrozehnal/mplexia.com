@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Aws on Mplexia</title>
-    <link>http://localhost:1313/tags/aws/</link>
+    <link>http://mplexia.com/tags/aws/</link>
     <description>Recent content in Aws on Mplexia</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <managingEditor>l.rozehnal@mplexia.com (Ludek Rozehnal)</managingEditor>
     <webMaster>l.rozehnal@mplexia.com (Ludek Rozehnal)</webMaster>
     <copyright>© 2026 Ludek Rozehnal</copyright>
-    <lastBuildDate>Tue, 05 May 2026 15:56:09 +0200</lastBuildDate><atom:link href="http://localhost:1313/tags/aws/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 05 May 2026 15:56:09 +0200</lastBuildDate><atom:link href="http://mplexia.com/tags/aws/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>How I Built This Website</title>
-      <link>http://localhost:1313/posts/001-how-i-built-this-website/</link>
+      <link>http://mplexia.com/posts/001-how-i-built-this-website/</link>
       <pubDate>Tue, 05 May 2026 15:56:09 +0200</pubDate>
       <author>l.rozehnal@mplexia.com (Ludek Rozehnal)</author>
-      <guid>http://localhost:1313/posts/001-how-i-built-this-website/</guid>
+      <guid>http://mplexia.com/posts/001-how-i-built-this-website/</guid>
       <description></description>
       
     </item>

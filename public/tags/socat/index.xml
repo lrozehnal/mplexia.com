@@ -2,21 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Socat on Mplexia</title>
-    <link>http://localhost:1313/tags/socat/</link>
+    <link>http://mplexia.com/tags/socat/</link>
     <description>Recent content in Socat on Mplexia</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <managingEditor>l.rozehnal@mplexia.com (Ludek Rozehnal)</managingEditor>
     <webMaster>l.rozehnal@mplexia.com (Ludek Rozehnal)</webMaster>
     <copyright>© 2026 Ludek Rozehnal</copyright>
-    <lastBuildDate>Wed, 06 May 2026 17:00:00 +0200</lastBuildDate><atom:link href="http://localhost:1313/tags/socat/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 07 May 2026 11:00:00 +0200</lastBuildDate><atom:link href="http://mplexia.com/tags/socat/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Socat and Multicast</title>
+      <link>http://mplexia.com/posts/003-socat-and-multicast/</link>
+      <pubDate>Thu, 07 May 2026 11:00:00 +0200</pubDate>
+      <author>l.rozehnal@mplexia.com (Ludek Rozehnal)</author>
+      <guid>http://mplexia.com/posts/003-socat-and-multicast/</guid>
+      <description></description>
+      
+    </item>
     
     <item>
       <title>socat: The Swiss Army Knife of Networking</title>
-      <link>http://localhost:1313/posts/002-i-wanted-but-socat/</link>
+      <link>http://mplexia.com/posts/002-i-wanted-but-socat/</link>
       <pubDate>Wed, 06 May 2026 17:00:00 +0200</pubDate>
       <author>l.rozehnal@mplexia.com (Ludek Rozehnal)</author>
-      <guid>http://localhost:1313/posts/002-i-wanted-but-socat/</guid>
+      <guid>http://mplexia.com/posts/002-i-wanted-but-socat/</guid>
       <description></description>
       
     </item>
