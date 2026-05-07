@@ -16,7 +16,7 @@ If you remember, a network connection (TCP or UDP) is like a phone call, well, I
 
 Imagine following scenario - the box s1 on the left hand side is the source of the multicast (multicast is technically an unidirectional stream of UDP packets to 'whoever is interested') and the box s2 is the consumer of the multicast. The source s1 sends the stream of bytes to the multicast group and s2 'somewhat announced' to the network that it's interested in the multicast group and then consumes the stream of bytes. Boxes s3 and s4 are also interested but the 'I want to listen too' announcement doens't work due to lack of multicast support between s1, and s3 and s4.
 
-![initial diagram](/images/posts/003-socat-and-multicast-1.png)
+![initial diagram](/images/posts/003-socat-and-multicast/socat-and-multicast-1.png)
 
 Let's demostrate:
 
@@ -87,7 +87,7 @@ on s4
 socat UDP4-RECVFROM:34567,ip-add-membership=224.1.2.4:10.0.2.14,fork -
 ```
 
-![socat diagram](/images/posts/003-socat-and-multicast-2.png)
+![socat diagram](/images/posts/003-socat-and-multicast/socat-and-multicast-2.png)
 
 Quick test:
 on s1
