@@ -46,7 +46,7 @@ Practical assistance with AWS connectivity onboarding, partner integrations, and
 ## Recent Highlights
 ### Mplexia Limited (2026 – Present)
 
-**Founder & Principal AWS Cloud Network Consultant
+**Founder & Principal AWS Cloud Network Consultant**
 
 - Providing expert AWS Cloud Network Consulting, Terraform automation, and GitOps solutions to MSPs, VARs, and AWS-heavy organisations on 3–12 month engagements or advisory basis.
 - Specialising in global multi-region/multi-account architectures, Transit Gateway designs, Direct Connect/VPN integrations, low-latency trading workloads, and full infrastructure automation.
