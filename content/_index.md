@@ -17,6 +17,11 @@ layout: page
 Schedule a 15-min Discovery Call
 {{< /button >}}
 
+{{< button href="/Ludek-Rozehnal-CV.pdf" target="_blank" >}}
+↓ Download my CV (PDF)
+{{< /button >}}
+
+
 UK Tax Resident • 100% Remote | Europe
 
 ## Hi, I'm Ludek Rozehnal {#whoami}
