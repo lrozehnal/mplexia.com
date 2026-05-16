@@ -7,6 +7,7 @@ layout: page
 # AWS Cloud Network Consulting
 
 **Terraform Expert • GitOps • Global Multi-Region Architectures**
+**Immediately available for remote UK/EU contract and advisory roles.**
 
 10+ years delivering resilient, fully automated AWS networking for high-performance trading and enterprise environments. 20+ years creating intelligent virtual connectivity solutions that power reliable infrastructure.
 
@@ -38,6 +39,13 @@ Helping organizations with connectivity aspects of on-premise to AWS hybrid migr
 Practical assistance with AWS connectivity onboarding, partner integrations, and migrations. I specialize in analyzing your requirements and designing/implementing the most effective solution — combining Direct Connect, VPC Endpoints, peering, and hybrid models to deliver secure, low-latency, and optimized network performance.
 
 ## Recent Highlights
+### Mplexia Limited (2026 – Present)
+
+**Founder & Principal AWS Cloud Network Consultant
+
+- Providing expert AWS Cloud Network Consulting, Terraform automation, and GitOps solutions to MSPs, VARs, and AWS-heavy organisations on 3–12 month engagements or advisory basis.
+- Specialising in global multi-region/multi-account architectures, Transit Gateway designs, Direct Connect/VPN integrations, low-latency trading workloads, and full infrastructure automation.
+- Immediately available for remote UK/EU contract roles at £550–£650/day (project-based and retainer options available).
 
 ### Flextrade Systems (2018 – 2026)
 
