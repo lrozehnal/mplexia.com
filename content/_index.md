@@ -26,11 +26,13 @@ UK Tax Resident • 100% Remote | Europe
 
 ## Hi, I'm Ludek Rozehnal {#whoami}
 
-AWS Cloud Network Engineer & Terraform Expert with 20+ years’ experience.
+Senior AWS Cloud Network Engineer & Terraform Expert with 20+ years’ experience in infrastructure, networking, and automation.  
 
-For the last 8+ years I’ve been the primary cloud network architect and IaC authority at Flextrade Systems (UK remote), where I designed and delivered fully automated global multi-region/multi-account AWS networking using Terraform and GitOps.
+Proven track record designing, delivering, and fully automating global-scale, multi-region/multi-account network connectivity in AWS and hybrid environments. Specialist in Infrastructure-as-Code (Terraform), GitOps-driven CI/CD pipelines, and resilient, low-latency cloud networking solutions for business-critical trading workloads.  
 
-I combine deep traditional networking knowledge with DevOps practices to eliminate manual processes, reduce risk, and accelerate cloud migrations — especially for low-latency, business-critical workloads.
+Trusted technical authority who blends deep traditional networking expertise with modern DevOps practices to eliminate manual processes, reduce risk, and deliver complex projects on time.  
+
+**Currently providing independent consulting through Mplexia Limited (UK)** – immediately available for remote UK/EU contract and advisory roles at £550–£650/day.
 
 ## What I Deliver{#services}
 
@@ -46,7 +48,7 @@ Practical assistance with AWS connectivity onboarding, partner integrations, and
 ## Recent Highlights
 ### Mplexia Limited (2026 – Present)
 
-**Founder & Principal AWS Cloud Network Consultant**
+**Founder & Principal AWS Cloud Network Consultant**		
 
 - Providing expert AWS Cloud Network Consulting, Terraform automation, and GitOps solutions to MSPs, VARs, and AWS-heavy organisations on 3–12 month engagements or advisory basis.
 - Specialising in global multi-region/multi-account architectures, Transit Gateway designs, Direct Connect/VPN integrations, low-latency trading workloads, and full infrastructure automation.
