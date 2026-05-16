@@ -727,7 +727,7 @@
 </h2>
 <p>Yesterday, I referenced <a href="http://www.dest-unreach.org/socat/doc/socat.html#EXAMPLES"  target="_blank" rel="noreferrer">http://www.dest-unreach.org/socat/doc/socat.html#EXAMPLES</a><br>
 with examples and one of those is actually a multicast!
-If you remember, a network connection (TCP or UDP) is like a phone call, well, IP multicast is like TV Broadcast - a single source sent the data (stream of bytes) and others consume it (or not if not interested).  IP multicast is well known for being fairly difficult to set up (and troubleshoot) but with socat, it is actually quite easy to do. Do you remmeber that almost-no-sense example with ssh over UDP? Here we go again!</p>
+If you remember, a network connection (TCP or UDP) is like a phone call, well, IP multicast is like TV Broadcast - a single source sent the data (stream of bytes) and others consume it (or not if not interested).  IP multicast is well known for being fairly difficult to set up (and troubleshoot) but with socat, it is actually quite easy to do. Do you remember that almost-no-sense example with ssh over UDP? Here we go again!</p>
 
 <h2 class="relative group">Scenario
     <div id="scenario" class="anchor"></div>
@@ -738,7 +738,7 @@ If you remember, a network connection (TCP or UDP) is like a phone call, well, I
     </span>
     
 </h2>
-<p>Imagine following scenario - the box s1 on the left hand side is the source of the multicast (multicast is technically an unidirectional stream of UDP packets to &lsquo;whoever is interested&rsquo;) and the box s2 is the consumer of the multicast. The source s1 sends the stream of bytes to the multicast group and s2 &lsquo;somewhat announced&rsquo; to the network that it&rsquo;s interested in the multicast group and then consumes the stream of bytes. Boxes s3 and s4 are also interested but the &lsquo;I want to listen too&rsquo; announcement doens&rsquo;t work due to lack of multicast support between s1, and s3 and s4.</p>
+<p>Imagine following scenario - the box s1 on the left hand side is the source of the multicast (multicast is technically an unidirectional stream of UDP packets to &lsquo;whoever is interested&rsquo;) and the box s2 is the consumer of the multicast. The source s1 sends the stream of bytes to the multicast group and s2 &lsquo;somewhat announced&rsquo; to the network that it&rsquo;s interested in the multicast group and then consumes the stream of bytes. Boxes s3 and s4 are also interested but the &lsquo;I want to listen too&rsquo; announcement doesn&rsquo;t work due to lack of multicast support between s1, and s3 and s4.</p>
 <figure><img
     class="my-0 rounded-md"
     loading="lazy"
@@ -747,9 +747,9 @@ If you remember, a network connection (TCP or UDP) is like a phone call, well, I
     alt="initial diagram"
     src="/images/posts/003-socat-and-multicast/socat-and-multicast-1.png"
     ></figure>
-<p>Let&rsquo;s demostrate:</p>
+<p>Let&rsquo;s demonstrate:</p>
 <p>on s1</p>
-<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"> socat -u - UDP4-DATAGRAM:224.1.2.3:12345,range<span class="o">=</span>10.0.0.0/16</span></span></code></pre></div></div>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"> socat -u - UDP4-DATAGRAM:224.1.2.3:12345,range<span class="o">=</span>10.0.0.0/8</span></span></code></pre></div></div>
 <p>on s2</p>
 <div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"> socat -u UDP4-RECVFROM:12345,ip-add-membership<span class="o">=</span>224.1.2.3:10.0.1.12,fork -</span></span></code></pre></div></div>
 <p>on s3</p>
@@ -766,9 +766,9 @@ If you remember, a network connection (TCP or UDP) is like a phone call, well, I
 <div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>lab@s3 ~<span class="o">]</span>$ socat UDP4-RECVFROM:12345,ip-add-membership<span class="o">=</span>224.1.2.3:10.0.2.13,fork -
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="o">[</span>lab@s4 ~<span class="o">]</span>$ socat UDP4-RECVFROM:12345,ip-add-membership<span class="o">=</span>224.1.2.3:10.0.2.14,fork -</span></span></code></pre></div></div>
-<p>So what now? do we need to implemented underlay/overlay network? Setup some GRE somewhat soemwhere and route it through it?  Or do we need to buy an expensive appliance? Do we need to bypass all firewalls? Well&hellip;  let me repurpose some of our servers in the scenario - I want server s2 to work like a proxy - on one side, it will listen for the incoming multicast and on the other it will sent the exact byte steam into direct UDP connection over the part of netwrok which doesn&rsquo;t support multicast. On the other side, s3 will listen for inbound UDP traffic from s2, and all byte stream will be <del>broadcasted</del> sent as multicast so server s4 can consume it (as multicast).
+<p>So what now? do we need to implement underlay/overlay network? Setup some GRE somewhat somewhere and route it through it?  Or do we need to buy an expensive appliance? Do we need to bypass all firewalls? Well&hellip;  let me repurpose some of our servers in the scenario - I want server s2 to work like a proxy - on one side, it will listen for the incoming multicast and on the other it will sent the exact byte stream into direct UDP connection over the part of network which doesn&rsquo;t support multicast. On the other side, s3 will listen for inbound UDP traffic from s2, and all byte stream will be <del>broadcasted</del> sent as multicast so server s4 can consume it (as multicast).
 (I am going to change the used addresses and ports to make everything working as intended)</p>
-<p>and let&rsquo;s demostrate it again:
+<p>and let&rsquo;s demonstrate it again:
 on s1</p>
 <div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">socat -u -  UDP4-DATAGRAM:224.1.2.3:12345,range<span class="o">=</span>10.0.0.0/8</span></span></code></pre></div></div>
 <p>on s2</p>
@@ -792,7 +792,7 @@ on s1</p>
 <p>and received on s4</p>
 <div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>lab@s4 ~<span class="o">]</span>$ socat UDP4-RECVFROM:34567,ip-add-membership<span class="o">=</span>224.1.2.4:10.0.2.14,fork -
 </span></span><span class="line"><span class="cl">Good morning!!</span></span></code></pre></div></div>
-<p>Technically, s1 act as the &lsquo;broadcaster which is usually out of our controll&rsquo;, and s4 on the other side is just a &lsquo;dummy&rsquo; application which is out of our control as well, but s2 and s3 are &lsquo;under our control&rsquo; and we can use them to &lsquo;bridge&rsquo; the multicast stream between s1 and s4. Isn&rsquo;t it cool?</p>
+<p>Technically, s1 act as the &lsquo;broadcaster which is usually out of our control&rsquo;, and s4 on the other side is just a &lsquo;dummy&rsquo; application which is out of our control as well, but s2 and s3 are &lsquo;under our control&rsquo; and we can use them to &lsquo;bridge&rsquo; the multicast stream between s1 and s4. Isn&rsquo;t it cool?</p>
 
           
           

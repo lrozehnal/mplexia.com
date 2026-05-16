@@ -64,6 +64,6 @@ I work selectively with MSPs, VARs and AWS-heavy organisations on 3–12 month e
 Book a 15-minute Discovery Call
 {{< /button >}}
 
-**+44 7756 678300** • **l.rozehnal@me.com**
+**+44 7756 678300** • **l.rozehnal@mplexia.com**
 
 *Mplexia Limited • UK Tax Resident • Fully Remote*
