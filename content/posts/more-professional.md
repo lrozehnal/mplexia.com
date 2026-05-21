@@ -6,11 +6,13 @@ description = "Quick write-up how I improved this website"
 tags = ["beginning", "gitops", "aws", "s3", "cloudfront"]
 +++
 
-## people were saying
+My personal site started as a quick static page to prove I exist. It worked, but it was missing basic professional touches: HTTPS, proper caching, and infrastructure-as-code. Here's how I fixed it with Terraform, CloudFront, and a bit of CloudFront Functions."
+
+## Problems Identified
 
 ### There's no TLS/SSL
 
-As this website used to be very simplistic webpage for me to 'show I exists' and a place where I can place my posts - [001-how-i-built-this-website] but since day one some - (Gonzalo) - were pointing to the obvious - there's no TLS/SSL - not that I don't want to but the underlaying technology (static website published off the S3 bucket) can't do anything even slightly more advanced. 
+As this website used to be very simplistic webpage for me to 'show I exists' and a place where I can place my posts - [001-how-i-built-this-website] but since day one some - (Gonzalo) - were pointing to the obvious - there's no TLS/SSL - not that I don't want to but the underlying technology (static website published off the S3 bucket) doesn't support HTTPS natively. 
 
 ### Denial-of-wallet
 
@@ -18,7 +20,7 @@ I was aware of this thing in general - basically somebody will request the S3 ob
 
 ### My inner terraform tyrant
 
-As I belong to people (same say) too, my biggest concern is about the fact that I have to maintain this website and update it and add new posts and I don't want to do it manually - I want to do it with code and terraform is my tool of choice: I created the domain manually, the S3 bucket manually, I don't remember if I allowed versioning or not ... the regular problems of the clickops - something has been completed, and just two eye-blicks later, you don't remember how you did it and how to do it again. This is not how we do those things in this household! :) 
+My biggest concern was about the fact that I had to maintain this website and updated it and added new posts and I did't want to do it manually - I wanted to do it with code and as terraform is my tool of choice: I created the domain manually, the S3 bucket manually, I didn't remember if I've alloweded versioning or not ... the regular problems of the clickops - something has been completed, and just two eye-blinks later, you don't remember how you did it and how to do it again. This is not how we do those things in this household! :) 
 
 
 ## Let's terraform it, shall we?
@@ -75,7 +77,7 @@ resource "aws_acm_certificate" "website" {
 
 ### Certificate validation
 
-This is one of those things why I fall in love with terraform & AWS combo... the general challange is that I can request whatever CN within my certificate - e.g. google.com - and AWS - as CA - needs to reach out to me to prove that I am the owner / in control of the domain - and the way to do it is to create a DNS record with specific name and value - histrorically this was BIG problem - but now we live in 2nd quater of 21st century - and all I need to do is to tell AWS I want to verify by DNS and AWS will request me to create certain 'random' DNS records to prove I am the owner of the domain and AWS will check if that record exists and if it has the correct value - if it does, it will issue the certificate - if it doesn't, it will not. This literally screams for automation :) 
+This is one of those things why I fall in love with terraform & AWS combo... the general challange is that I can request whatever CN within my certificate - e.g. google.com - and AWS - as CA - needs to reach out to me to prove that I am the owner / in control of the domain - and the way to do it is to create a DNS record with specific name and value - historically this was BIG problem - but now we live in 2nd quater of 21st century - and all I need to do is to tell AWS I want to verify by DNS and AWS will request me to create certain 'random' DNS records to prove I am the owner of the domain and AWS will check if that record exists and if it has the correct value - if it does, it will issue the certificate - if it doesn't, it will not. This literally screams for automation :) 
 
 ```hcl
 resource "aws_route53_record" "cert_validation" {
@@ -95,7 +97,7 @@ resource "aws_route53_record" "cert_validation" {
   zone_id         = data.aws_route53_zone.dnszone.id   # We'll define this
 }
 ```
-what the heck? :) Well it's not taht complicated - when I created the certificate in previous section, I requested the certificate for three names  - "mplexia.com" - (domain.name) and another two - "www.mplexia.com" and "ipv6.mplexia.com" - (subject_alternative_names) - so AWS will ask me to create three DNS records to prove that I am the owner of the domain - and these three records will be different for each name - so I need to create three records with different names and values - but I don't want to do it manually - so I am using 'for_each' to loop through all the domain validation options that AWS provides me and I am creating a record for each of them - and I am using 'allow_overwrite' because if I need to re-validate the certificate, I can just run terraform apply again and it will update the existing records with new values - this way I don't have to worry about deleting old records or creating new ones - terraform will take care of it for me.
+what the heck? :) Well it's not that complicated - when I created the certificate in previous section, I requested the certificate for three names  - "mplexia.com" - (domain.name) and another two - "www.mplexia.com" and "ipv6.mplexia.com" - (subject_alternative_names) - so AWS will ask me to create three DNS records to prove that I am the owner of the domain - and these three records will be different for each name - so I need to create three records with different names and values - but I don't want to do it manually - so I am using 'for_each' to loop through all the domain validation options that AWS provides me and I am creating a record for each of them - and I am using 'allow_overwrite' because if I need to re-validate the certificate, I can just run terraform apply again and it will update the existing records with new values - this way I don't have to worry about deleting old records or creating new ones - terraform will take care of it for me.
 Isn't this awesome? :) 
 
 Two notes here: 1) I am creating the records in the same Route53 zone where my domain is - so I need to define the data source for that zone - this zone is something - similarly like the s3 bucket - I created manually some time ago - this is wrong and I need to fix this - later. 2) Creating the records for validation is not enough , it has to be requested with AWS to validate. Now this seems to be obvious but when I started with terraform years ago, I didn't know and I remember I spent several hours on "WHY THE VALIDATION IS NOT WORKING?!??!" as I didn't do:
@@ -204,8 +206,9 @@ resource "aws_cloudfront_distribution" "website" {
 }
 
 ```
+I had few problems but I quickly figured out there could be a function_association which would control (or alternate) the generic behavious: some basic redirecton from www to the main non-www site.
+Second issue I had was that e.g. request for /post was sent directly to S3 bucket and S3 bucket doesn't know how to handle it - it doesn't know that it should serve index.html file - so I had to add default_root_object = "index.html" to the distribution configuration - this way, if somebody goes to mplexia.com/post, CloudFront will serve mplexia.com/post/index.html and it will work as expected.  and I guess more will come:
 
-I had few problems but I quicky figured out there could be function_association which would control (or alternate) the generic behaviour: redirect www to non-www domain - this is something I want to do as I want to have one canonical domain and I don't want to have two separate websites - one for www and one for non-www - this way I can avoid duplicate content issues and I can also avoid confusion for users - so if somebody goes to www.mplexia.com (by an accident of some sort) they will be redirected to mplexia.com - and this is done with CloudFront Function which is a lightweight JavaScript function that runs at the edge and it can modify the request or response - in this case, it modifies the request and it redirects www to non-www - this is something that I want to do as I want to have one canonical domain and I don't want to have two separate websites - one for www and one for non-www - this way I can avoid duplicate content issues and I can also avoid confusion for users - so if somebody goes to www.mplexia.com, they will be redirected to mplexia.com - and this is done with CloudFront Function which is a lightweight JavaScript function that runs at the edge and it can modify the request or response - in this case, it modifies the request and it redirects www to non-www. Second issue I had was that e.g. request for /post was sent directly to S3 bucket and S3 bucket doesn't know how to handle it - it doesn't know that it should serve index.html file - so I had to add default_root_object = "index.html" to the distribution configuration - this way, if somebody goes to mplexia.com/post, CloudFront will serve mplexia.com/post/index.html and it will work as expected.  and I guess more will come:
 ```hcl
 resource "aws_cloudfront_function" "www_redirect" {
   name    = "www-to-apex-redirect"
@@ -250,7 +253,7 @@ EOF
 ```
 And later, I can add more logic/magic to this function - this is the beauty of CloudFront Functions - they are very lightweight and they can be easily modified and deployed without any downtime - so I can experiment with them and see what works best for my website.
 
-### Cutting over cloudfront and DNS
+### DNS Cutover
 
 As mentioned earlier, I created the route53 zone of mplexia.com manually (maybe it was created on my behalf when I registered it?) and it's outside of terraform (hence I was using terraform data to look it up). Generally, that's suboptimal as I want it to be 'under' terraform - so very similarly how I did the already-existing S3 bucket:
 
@@ -298,44 +301,7 @@ resource "aws_route53_record" "apex" {
   }
 }
 
-resource "aws_route53_record" "www" {
-  provider = aws.eu-west-1
-  #zone_id = data.aws_route53_zone.dnszone.id
-  zone_id = aws_route53_zone.mplexia_com.id
-  name    = "www.${local.aws_config_env.name}"
-  type    = "A"
-  alias {
-    name                   = aws_cloudfront_distribution.website.domain_name
-    zone_id                = aws_cloudfront_distribution.website.hosted_zone_id
-    evaluate_target_health = false
-  }
-}
-
-resource "aws_route53_record" "apex_ipv6" {
-  provider = aws.eu-west-1
-  #zone_id = data.aws_route53_zone.dnszone.id
-  zone_id = aws_route53_zone.mplexia_com.id
-  name    = local.aws_config_env.name
-  type    = "AAAA"
-  alias {
-    name                   = aws_cloudfront_distribution.website.domain_name
-    zone_id                = aws_cloudfront_distribution.website.hosted_zone_id
-    evaluate_target_health = false
-  }
-}
-
-resource "aws_route53_record" "www_ipv6" {
-  provider = aws.eu-west-1
-  #zone_id = data.aws_route53_zone.dnszone.id
-  zone_id = aws_route53_zone.mplexia_com.id
-  name    = "www.${local.aws_config_env.name}"
-  type    = "AAAA"
-  alias {
-    name                   = aws_cloudfront_distribution.website.domain_name
-    zone_id                = aws_cloudfront_distribution.website.hosted_zone_id
-    evaluate_target_health = false
-  }
-}
+## TWO MORE - ommitted 
 
 resource "aws_route53_record" "ipv6_ipv6" {
   provider = aws.eu-west-1
@@ -353,7 +319,7 @@ resource "aws_route53_record" "ipv6_ipv6" {
 
 oh this is getting pretty long - this should be done slightly differently too (likely a list and check 'for_each') but about that some time next...
 
-## Conclusion
+## Conclusion & Next Steps
 
 This was great. I really enjoyed it - it's something which has to completed for some time and now as I was working on it I really liked how it turned out - I have a nice and secure website with TLS/SSL, yesterday, I didn't really know CloudFront but now I have CloudFront distribution which will cache my content and serve it faster to my users and I have everything under terraform which means that I can easily manage it and update it in the future - I can add new posts, I can change the configuration, I can experiment with CloudFront Functions and see what works best for my website - this is really great and I'm looking forward to see how it evolves in the future as I also managed to get myself more stuff which I can improve!
 
