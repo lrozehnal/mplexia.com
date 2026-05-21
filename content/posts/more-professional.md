@@ -1,6 +1,6 @@
 +++
 date = '2026-05-21T11:53:14+02:00'
-draft = true
+draft = false
 title = 'More Professional'
 description = "Quick write-up how I improved this website"
 tags = ["beginning", "gitops", "aws", "s3", "cloudfront"]
