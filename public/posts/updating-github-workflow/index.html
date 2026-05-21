@@ -15,20 +15,20 @@
 
   
   
-    <title>Socat and Multicast &middot; Mplexia</title>
-    <meta name="title" content="Socat and Multicast &middot; Mplexia">
+    <title>Making my life easier - updating github workflow &middot; Mplexia</title>
+    <meta name="title" content="Making my life easier - updating github workflow &middot; Mplexia">
   
 
   
   
-    <meta name="description" content="Quick demonstration how to use socat to bypass the part of network which doesn&#39;t support multicast">
+    <meta name="description" content="How to run &#39;hugo build&#39; as part of the github workflow">
   
   
-    <meta name="keywords" content="socat,networking,tcp,udp,linux,multicast,">
+    <meta name="keywords" content="beginning,gitops,hugo,markup,github-actions,ci/cd,automation,">
   
   
   
-  <link rel="canonical" href="http://mplexia.com/posts/003-socat-and-multicast/">
+  <link rel="canonical" href="http://mplexia.com/posts/updating-github-workflow/">
   
   
 
@@ -63,26 +63,26 @@
   
 
   
-  <meta property="og:url" content="http://mplexia.com/posts/003-socat-and-multicast/">
+  <meta property="og:url" content="http://mplexia.com/posts/updating-github-workflow/">
   <meta property="og:site_name" content="Mplexia">
-  <meta property="og:title" content="Socat and Multicast">
-  <meta property="og:description" content="Quick demonstration how to use socat to bypass the part of network which doesn&#39;t support multicast">
+  <meta property="og:title" content="Making my life easier - updating github workflow">
+  <meta property="og:description" content="How to run &#39;hugo build&#39; as part of the github workflow">
   <meta property="og:locale" content="en">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2026-05-07T11:00:00+02:00">
-    <meta property="article:modified_time" content="2026-05-07T11:00:00+02:00">
-    <meta property="article:tag" content="Socat">
-    <meta property="article:tag" content="Networking">
-    <meta property="article:tag" content="Tcp">
-    <meta property="article:tag" content="Udp">
-    <meta property="article:tag" content="Linux">
-    <meta property="article:tag" content="Multicast">
+    <meta property="article:published_time" content="2026-05-16T14:00:00+02:00">
+    <meta property="article:modified_time" content="2026-05-16T14:00:00+02:00">
+    <meta property="article:tag" content="Beginning">
+    <meta property="article:tag" content="Gitops">
+    <meta property="article:tag" content="Hugo">
+    <meta property="article:tag" content="Markup">
+    <meta property="article:tag" content="Github-Actions">
+    <meta property="article:tag" content="Ci/Cd">
 
   
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Socat and Multicast">
-  <meta name="twitter:description" content="Quick demonstration how to use socat to bypass the part of network which doesn&#39;t support multicast">
+  <meta name="twitter:title" content="Making my life easier - updating github workflow">
+  <meta name="twitter:description" content="How to run &#39;hugo build&#39; as part of the github workflow">
 
   
   
@@ -233,25 +233,25 @@
     "@context": "https://schema.org",
     "@type": "Article",
     "articleSection": "Posts",
-    "name": "Socat and Multicast",
-    "headline": "Socat and Multicast",
-    "description": "Quick demonstration how to use socat to bypass the part of network which doesn\u0027t support multicast",
+    "name": "Making my life easier - updating github workflow",
+    "headline": "Making my life easier - updating github workflow",
+    "description": "How to run \u0027hugo build\u0027 as part of the github workflow",
     "inLanguage": "en",
-    "url" : "http://mplexia.com/posts/003-socat-and-multicast/",
+    "url" : "http://mplexia.com/posts/updating-github-workflow/",
     "author" : {
       "@type": "Person",
       "name": "Ludek Rozehnal"
     },
     "copyrightYear": "2026",
-    "dateCreated": "2026-05-07T11:00:00\u002b02:00",
-    "datePublished": "2026-05-07T11:00:00\u002b02:00",
+    "dateCreated": "2026-05-16T14:00:00\u002b02:00",
+    "datePublished": "2026-05-16T14:00:00\u002b02:00",
     
-    "dateModified": "2026-05-07T11:00:00\u002b02:00",
+    "dateModified": "2026-05-16T14:00:00\u002b02:00",
     
-    "keywords": ["socat","networking","tcp","udp","linux","multicast"],
+    "keywords": ["beginning","gitops","hugo","markup","github-actions","ci/cd","automation"],
     
     "mainEntityOfPage": "true",
-    "wordCount": "513"
+    "wordCount": "376"
   }]
   </script>
 
@@ -633,7 +633,7 @@
     <header id="single_header" class="mt-5 max-w-prose">
       
       <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
-        Socat and Multicast
+        Making my life easier - updating github workflow
       </h1>
       <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
         
@@ -685,7 +685,7 @@
   <div class="flex flex-row flex-wrap items-center">
     
     
-      <time datetime="2026-05-07T11:00:00&#43;02:00">7 May 2026</time><span class="px-2 text-primary-500">&middot;</span><span>513 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">3 mins</span>
+      <time datetime="2026-05-16T14:00:00&#43;02:00">16 May 2026</time><span class="px-2 text-primary-500">&middot;</span><span>376 words</span><span class="px-2 text-primary-500">&middot;</span><span title="Reading time">2 mins</span>
     
 
     
@@ -716,83 +716,103 @@
 
         <div class="article-content max-w-prose mb-20">
           
-<h2 class="relative group">Introduction
-    <div id="introduction" class="anchor"></div>
+<h2 class="relative group">Why?
+    <div id="why" class="anchor"></div>
     
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
-        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#introduction" aria-label="Anchor">#</a>
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#why" aria-label="Anchor">#</a>
     </span>
     
 </h2>
-<p>Yesterday, I referenced <a href="http://www.dest-unreach.org/socat/doc/socat.html#EXAMPLES"  target="_blank" rel="noreferrer">http://www.dest-unreach.org/socat/doc/socat.html#EXAMPLES</a><br>
-with examples and one of those is actually a multicast!
-If you remember, a network connection (TCP or UDP) is like a phone call, well, IP multicast is like TV Broadcast - a single source sent the data (stream of bytes) and others consume it (or not if not interested).  IP multicast is well known for being fairly difficult to set up (and troubleshoot) but with socat, it is actually quite easy to do. Do you remember that almost-no-sense example with ssh over UDP? Here we go again!</p>
+<p>Easy answer - to make my life easier :)
+My current workflow is that I would</p>
+<ol>
+<li>make changes on my webside</li>
+<li>run <code>hugo build</code> locally to generate the static files</li>
+<li>commit and push the changes to github</li>
+<li>github workflow would then run and deploy the changes to AWS S3</li>
+<li>I would check if the changes are live on the website</li>
+</ol>
+<p>And what keeps happening is that I forget to run <code>hugo build</code> before pushing the changes, which results in the website not being updated until I realize the mistake and push again after running <code>hugo build</code>.
+I am no content creator and this is a very manual process, so I want to automate it as much as possible and make it easier for myself.</p>
 
-<h2 class="relative group">Scenario
-    <div id="scenario" class="anchor"></div>
+<h2 class="relative group">How?
+    <div id="how" class="anchor"></div>
     
     <span
         class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100 select-none">
-        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#scenario" aria-label="Anchor">#</a>
+        <a class="text-primary-300 dark:text-neutral-700 !no-underline" href="#how" aria-label="Anchor">#</a>
     </span>
     
 </h2>
-<p>Imagine following scenario - the box s1 on the left hand side is the source of the multicast (multicast is technically an unidirectional stream of UDP packets to &lsquo;whoever is interested&rsquo;) and the box s2 is the consumer of the multicast. The source s1 sends the stream of bytes to the multicast group and s2 &lsquo;somewhat announced&rsquo; to the network that it&rsquo;s interested in the multicast group and then consumes the stream of bytes. Boxes s3 and s4 are also interested but the &lsquo;I want to listen too&rsquo; announcement doesn&rsquo;t work due to lack of multicast support between s1, and s3 and s4.</p>
-<figure><img
-    class="my-0 rounded-md"
-    loading="lazy"
-    decoding="async"
-    fetchpriority="low"
-    alt="initial diagram"
-    src="/images/posts/003-socat-and-multicast/socat-and-multicast-1.png"
-    ></figure>
-<p>Let&rsquo;s demonstrate:</p>
-<p>on s1</p>
-<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"> socat -u - UDP4-DATAGRAM:224.1.2.3:12345,range<span class="o">=</span>10.0.0.0/8</span></span></code></pre></div></div>
-<p>on s2</p>
-<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"> socat -u UDP4-RECVFROM:12345,ip-add-membership<span class="o">=</span>224.1.2.3:10.0.1.12,fork -</span></span></code></pre></div></div>
-<p>on s3</p>
-<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"> socat -u UDP4-RECVFROM:12345,ip-add-membership<span class="o">=</span>224.1.2.3:10.0.2.13,fork -</span></span></code></pre></div></div>
-<p>on s4</p>
-<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">socat -u UDP4-RECVFROM:12345,ip-add-membership<span class="o">=</span>224.1.2.3:10.0.2.14,fork -</span></span></code></pre></div></div>
-<p>And sent a message from s1:</p>
-<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>lab@s1 ~<span class="o">]</span>$  socat -u -  UDP4-DATAGRAM:224.1.2.3:12345,range<span class="o">=</span>10.0.0.0/8
-</span></span><span class="line"><span class="cl">Good evening!</span></span></code></pre></div></div>
-<p>the message is received on s2:</p>
-<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>lab@s2 ~<span class="o">]</span>$ socat UDP4-RECVFROM:12345,ip-add-membership<span class="o">=</span>224.1.2.3:10.0.1.12,fork  -
-</span></span><span class="line"><span class="cl">Good evening!</span></span></code></pre></div></div>
-<p>but not on s3 nor s4</p>
-<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>lab@s3 ~<span class="o">]</span>$ socat UDP4-RECVFROM:12345,ip-add-membership<span class="o">=</span>224.1.2.3:10.0.2.13,fork -
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="o">[</span>lab@s4 ~<span class="o">]</span>$ socat UDP4-RECVFROM:12345,ip-add-membership<span class="o">=</span>224.1.2.3:10.0.2.14,fork -</span></span></code></pre></div></div>
-<p>So what now? do we need to implement underlay/overlay network? Setup some GRE somewhat somewhere and route it through it?  Or do we need to buy an expensive appliance? Do we need to bypass all firewalls? Well&hellip;  let me repurpose some of our servers in the scenario - I want server s2 to work like a proxy - on one side, it will listen for the incoming multicast and on the other it will sent the exact byte stream into direct UDP connection over the part of network which doesn&rsquo;t support multicast. On the other side, s3 will listen for inbound UDP traffic from s2, and all byte stream will be <del>broadcasted</del> sent as multicast so server s4 can consume it (as multicast).
-(I am going to change the used addresses and ports to make everything working as intended)</p>
-<p>and let&rsquo;s demonstrate it again:
-on s1</p>
-<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">socat -u -  UDP4-DATAGRAM:224.1.2.3:12345,range<span class="o">=</span>10.0.0.0/8</span></span></code></pre></div></div>
-<p>on s2</p>
-<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">socat UDP4-RECVFROM:12345,ip-add-membership<span class="o">=</span>224.1.2.3:10.0.1.12,fork UDP:10.0.2.13:23456</span></span></code></pre></div></div>
-<p>on s3</p>
-<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">socat UDP-L:23456,fork UDP4-DATAGRAM:224.1.2.4:34567,range<span class="o">=</span>10.0.0.0/8</span></span></code></pre></div></div>
-<p>on s4</p>
-<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">socat UDP4-RECVFROM:34567,ip-add-membership<span class="o">=</span>224.1.2.4:10.0.2.14,fork -</span></span></code></pre></div></div>
-<figure><img
-    class="my-0 rounded-md"
-    loading="lazy"
-    decoding="async"
-    fetchpriority="low"
-    alt="socat diagram"
-    src="/images/posts/003-socat-and-multicast/socat-and-multicast-2.png"
-    ></figure>
-<p>Quick test:
-on s1</p>
-<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>lab@s1 ~<span class="o">]</span>$  socat -u -  UDP4-DATAGRAM:224.1.2.3:12345,range<span class="o">=</span>10.0.0.0/8
-</span></span><span class="line"><span class="cl">Good morning!!</span></span></code></pre></div></div>
-<p>and received on s4</p>
-<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>lab@s4 ~<span class="o">]</span>$ socat UDP4-RECVFROM:34567,ip-add-membership<span class="o">=</span>224.1.2.4:10.0.2.14,fork -
-</span></span><span class="line"><span class="cl">Good morning!!</span></span></code></pre></div></div>
-<p>Technically, s1 act as the &lsquo;broadcaster which is usually out of our control&rsquo;, and s4 on the other side is just a &lsquo;dummy&rsquo; application which is out of our control as well, but s2 and s3 are &lsquo;under our control&rsquo; and we can use them to &lsquo;bridge&rsquo; the multicast stream between s1 and s4. Isn&rsquo;t it cool?</p>
+<p>I just need to update the github workflow to run <code>hugo build</code> as part of the workflow before deploying the changes to AWS S3.</p>
+<p>This is the current workflow file:</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Deploy to S3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">push</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="l">main ]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">workflow_dispatch</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">jobs</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">deploy</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l">ubuntu-latest</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w"> </span><span class="l">production</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">steps</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">actions/checkout@v4</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">with</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">fetch-depth</span><span class="p">:</span><span class="w"> </span><span class="m">0</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Configure AWS Credentials</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">aws-actions/configure-aws-credentials@v4</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">with</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">aws-access-key-id</span><span class="p">:</span><span class="w"> </span><span class="l">${{ secrets.AWS_ACCESS_KEY_ID }}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">aws-secret-access-key</span><span class="p">:</span><span class="w"> </span><span class="l">${{ secrets.AWS_SECRET_ACCESS_KEY }}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">aws-region</span><span class="p">:</span><span class="w"> </span><span class="l">eu-west-1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Deploy to S3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
+</span></span></span><span class="line"><span class="cl"><span class="sd">          aws s3 sync ./public s3://mplexia.com --delete</span></span></span></code></pre></div></div>
+<p>and I just need to add the <code>hugo build</code> command before the <code>aws s3 sync</code> command:</p>
+<div class="highlight-wrapper"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Deploy to S3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">push</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="l">main ]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">workflow_dispatch</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="nt">jobs</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">deploy</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l">ubuntu-latest</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w"> </span><span class="l">production</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">steps</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">actions/checkout@v4</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">with</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">fetch-depth</span><span class="p">:</span><span class="w"> </span><span class="m">0</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">submodules</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Setup Hugo</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">peaceiris/actions-hugo@v2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">with</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">hugo-version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;0.161.1&#39;</span><span class="w">   
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">extended</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Build with Hugo</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l">hugo --minify</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Configure AWS Credentials</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">aws-actions/configure-aws-credentials@v4</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">with</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">aws-access-key-id</span><span class="p">:</span><span class="w"> </span><span class="l">${{ secrets.AWS_ACCESS_KEY_ID }}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">aws-secret-access-key</span><span class="p">:</span><span class="w"> </span><span class="l">${{ secrets.AWS_SECRET_ACCESS_KEY }}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">aws-region</span><span class="p">:</span><span class="w"> </span><span class="l">eu-west-1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Deploy to S3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p">|</span><span class="sd">
+</span></span></span><span class="line"><span class="cl"><span class="sd">          aws s3 sync ./public s3://mplexia.com --delete</span></span></span></code></pre></div></div>
+<p>and after that I just need to commit and push the changes to github and the workflow will run and deploy the changes to AWS S3, and I can check if the changes are live on the website.</p>
+<p>Isn&rsquo;t that much easier? Automation is great, it saves time and reduces the chances of human error. Now I can focus on creating content and let the workflow take care of the rest.</p>
 
           
           
@@ -950,32 +970,19 @@ on s1</p>
           
             <a
               class="flex text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
-              href="/posts/002-i-wanted-but-socat/">
+              href="/posts/003-socat-and-multicast/">
               <span class="leading-6">
-                <span class="inline-block rtl:rotate-180">&larr;</span>&ensp;socat: The Swiss Army Knife of Networking
+                <span class="inline-block rtl:rotate-180">&larr;</span>&ensp;Socat and Multicast
               </span>
             </a>
             
               <span class="ms-6 mt-1 text-xs text-neutral-500 dark:text-neutral-400">
-                <time datetime="2026-05-06T17:00:00&#43;02:00">6 May 2026</time>
+                <time datetime="2026-05-07T11:00:00&#43;02:00">7 May 2026</time>
               </span>
             
           
         </span>
         <span class="flex flex-col items-end">
-          
-            <a
-              class="flex text-right text-neutral-700 hover:text-primary-600 dark:text-neutral dark:hover:text-primary-400"
-              href="/posts/updating-github-workflow/">
-              <span class="leading-6">
-                Making my life easier - updating github workflow&ensp;<span class="inline-block rtl:rotate-180">&rarr;</span>
-              </span>
-            </a>
-            
-              <span class="me-6 mt-1 text-xs text-neutral-500 dark:text-neutral-400">
-                <time datetime="2026-05-16T14:00:00&#43;02:00">16 May 2026</time>
-              </span>
-            
           
         </span>
       </div>

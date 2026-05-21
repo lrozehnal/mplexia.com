@@ -9,7 +9,77 @@
     <managingEditor>l.rozehnal@mplexia.com (Ludek Rozehnal)</managingEditor>
     <webMaster>l.rozehnal@mplexia.com (Ludek Rozehnal)</webMaster>
     <copyright>© 2026 Ludek Rozehnal</copyright>
-    <lastBuildDate>Thu, 07 May 2026 11:00:00 +0200</lastBuildDate><atom:link href="http://mplexia.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 16 May 2026 14:00:00 +0200</lastBuildDate><atom:link href="http://mplexia.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Automation</title>
+      <link>http://mplexia.com/tags/automation/</link>
+      <pubDate>Sat, 16 May 2026 14:00:00 +0200</pubDate>
+      <author>l.rozehnal@mplexia.com (Ludek Rozehnal)</author>
+      <guid>http://mplexia.com/tags/automation/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Beginning</title>
+      <link>http://mplexia.com/tags/beginning/</link>
+      <pubDate>Sat, 16 May 2026 14:00:00 +0200</pubDate>
+      <author>l.rozehnal@mplexia.com (Ludek Rozehnal)</author>
+      <guid>http://mplexia.com/tags/beginning/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Ci/Cd</title>
+      <link>http://mplexia.com/tags/ci/cd/</link>
+      <pubDate>Sat, 16 May 2026 14:00:00 +0200</pubDate>
+      <author>l.rozehnal@mplexia.com (Ludek Rozehnal)</author>
+      <guid>http://mplexia.com/tags/ci/cd/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Github-Actions</title>
+      <link>http://mplexia.com/tags/github-actions/</link>
+      <pubDate>Sat, 16 May 2026 14:00:00 +0200</pubDate>
+      <author>l.rozehnal@mplexia.com (Ludek Rozehnal)</author>
+      <guid>http://mplexia.com/tags/github-actions/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Gitops</title>
+      <link>http://mplexia.com/tags/gitops/</link>
+      <pubDate>Sat, 16 May 2026 14:00:00 +0200</pubDate>
+      <author>l.rozehnal@mplexia.com (Ludek Rozehnal)</author>
+      <guid>http://mplexia.com/tags/gitops/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Hugo</title>
+      <link>http://mplexia.com/tags/hugo/</link>
+      <pubDate>Sat, 16 May 2026 14:00:00 +0200</pubDate>
+      <author>l.rozehnal@mplexia.com (Ludek Rozehnal)</author>
+      <guid>http://mplexia.com/tags/hugo/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Markup</title>
+      <link>http://mplexia.com/tags/markup/</link>
+      <pubDate>Sat, 16 May 2026 14:00:00 +0200</pubDate>
+      <author>l.rozehnal@mplexia.com (Ludek Rozehnal)</author>
+      <guid>http://mplexia.com/tags/markup/</guid>
+      <description></description>
+      
+    </item>
     
     <item>
       <title>Linux</title>
@@ -72,16 +142,6 @@
     </item>
     
     <item>
-      <title>Automation</title>
-      <link>http://mplexia.com/tags/automation/</link>
-      <pubDate>Tue, 05 May 2026 15:56:09 +0200</pubDate>
-      <author>l.rozehnal@mplexia.com (Ludek Rozehnal)</author>
-      <guid>http://mplexia.com/tags/automation/</guid>
-      <description></description>
-      
-    </item>
-    
-    <item>
       <title>Aws</title>
       <link>http://mplexia.com/tags/aws/</link>
       <pubDate>Tue, 05 May 2026 15:56:09 +0200</pubDate>
@@ -97,66 +157,6 @@
       <pubDate>Tue, 05 May 2026 15:56:09 +0200</pubDate>
       <author>l.rozehnal@mplexia.com (Ludek Rozehnal)</author>
       <guid>http://mplexia.com/tags/aws-cli/</guid>
-      <description></description>
-      
-    </item>
-    
-    <item>
-      <title>Beginning</title>
-      <link>http://mplexia.com/tags/beginning/</link>
-      <pubDate>Tue, 05 May 2026 15:56:09 +0200</pubDate>
-      <author>l.rozehnal@mplexia.com (Ludek Rozehnal)</author>
-      <guid>http://mplexia.com/tags/beginning/</guid>
-      <description></description>
-      
-    </item>
-    
-    <item>
-      <title>Ci/Cd</title>
-      <link>http://mplexia.com/tags/ci/cd/</link>
-      <pubDate>Tue, 05 May 2026 15:56:09 +0200</pubDate>
-      <author>l.rozehnal@mplexia.com (Ludek Rozehnal)</author>
-      <guid>http://mplexia.com/tags/ci/cd/</guid>
-      <description></description>
-      
-    </item>
-    
-    <item>
-      <title>Github-Actions</title>
-      <link>http://mplexia.com/tags/github-actions/</link>
-      <pubDate>Tue, 05 May 2026 15:56:09 +0200</pubDate>
-      <author>l.rozehnal@mplexia.com (Ludek Rozehnal)</author>
-      <guid>http://mplexia.com/tags/github-actions/</guid>
-      <description></description>
-      
-    </item>
-    
-    <item>
-      <title>Gitops</title>
-      <link>http://mplexia.com/tags/gitops/</link>
-      <pubDate>Tue, 05 May 2026 15:56:09 +0200</pubDate>
-      <author>l.rozehnal@mplexia.com (Ludek Rozehnal)</author>
-      <guid>http://mplexia.com/tags/gitops/</guid>
-      <description></description>
-      
-    </item>
-    
-    <item>
-      <title>Hugo</title>
-      <link>http://mplexia.com/tags/hugo/</link>
-      <pubDate>Tue, 05 May 2026 15:56:09 +0200</pubDate>
-      <author>l.rozehnal@mplexia.com (Ludek Rozehnal)</author>
-      <guid>http://mplexia.com/tags/hugo/</guid>
-      <description></description>
-      
-    </item>
-    
-    <item>
-      <title>Markup</title>
-      <link>http://mplexia.com/tags/markup/</link>
-      <pubDate>Tue, 05 May 2026 15:56:09 +0200</pubDate>
-      <author>l.rozehnal@mplexia.com (Ludek Rozehnal)</author>
-      <guid>http://mplexia.com/tags/markup/</guid>
       <description></description>
       
     </item>
