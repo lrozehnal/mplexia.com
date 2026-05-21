@@ -187,7 +187,6 @@ resource "aws_cloudfront_distribution" "website" {
 
   tags = {
     Name        = "mplexia.com"
-    Environment = "production"
   }
 }
 
@@ -258,23 +257,34 @@ resource "aws_cloudfront_function" "www_redirect" {
   comment = "Redirect www.mplexia.com to mplexia.com"
   publish = true
 
-  code = <<-EOF
+code = <<-EOF
 function handler(event) {
     var request = event.request;
-    var host = request.headers.host.value;
+    var uri = request.uri;
 
-    // If the request comes to www.mplexia.com, redirect to apex
-    if (host === 'www.mplexia.com' || host === 'www.mplexia.com:443') {
-        var response = {
+    // 1. www → non-www redirect
+    var host = request.headers.host.value;
+    if (host === "www.mplexia.com" || host === "www.mplexia.com:443") {
+        var newUrl = "https://mplexia.com" + uri;
+        if (request.querystring && Object.keys(request.querystring).length > 0) {
+            newUrl += "?" + new URLSearchParams(
+                Object.keys(request.querystring).map(k => [k, request.querystring[k].value])
+            ).toString();
+        }
+        return {
             statusCode: 301,
-            statusDescription: 'Moved Permanently',
-            headers: {
-                'location': { 
-                    value: 'https://mplexia.com' + request.uri 
-                }
-            }
+            statusDescription: "Moved Permanently",
+            headers: { "location": { "value": newUrl } }
         };
-        return response;
+    }
+
+    // 2. Trailing slash → add index.html
+    if (uri.endsWith("/")) {
+        request.uri = uri + "index.html";
+    }
+    // 3. If no extension and doesn't end with /, add /index.html (optional but nice)
+    else if (!uri.includes(".")) {
+        request.uri = uri + "/index.html";
     }
 
     return request;
