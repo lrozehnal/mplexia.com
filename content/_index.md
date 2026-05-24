@@ -7,6 +7,7 @@ layout: page
 # AWS Cloud Network Consulting
 
 **Terraform Expert • GitOps • Global Multi-Region Architectures**
+**Immediately available for remote UK/EU contract and advisory roles.**
 
 10+ years delivering resilient, fully automated AWS networking for high-performance trading and enterprise environments. 20+ years creating intelligent virtual connectivity solutions that power reliable infrastructure.
 
@@ -16,15 +17,22 @@ layout: page
 Schedule a 15-min Discovery Call
 {{< /button >}}
 
+{{< button href="/Ludek-Rozehnal-CV.pdf" target="_blank" >}}
+↓ Download my CV (PDF)
+{{< /button >}}
+
+
 UK Tax Resident • 100% Remote | Europe
 
 ## Hi, I'm Ludek Rozehnal {#whoami}
 
-AWS Cloud Network Engineer & Terraform Expert with 20+ years’ experience.
+Senior AWS Cloud Network Engineer & Terraform Expert with 20+ years’ experience in infrastructure, networking, and automation.  
 
-For the last 8+ years I’ve been the primary cloud network architect and IaC authority at Flextrade Systems (UK remote), where I designed and delivered fully automated global multi-region/multi-account AWS networking using Terraform and GitOps.
+Proven track record designing, delivering, and fully automating global-scale, multi-region/multi-account network connectivity in AWS and hybrid environments. Specialist in Infrastructure-as-Code (Terraform), GitOps-driven CI/CD pipelines, and resilient, low-latency cloud networking solutions for business-critical trading workloads.  
 
-I combine deep traditional networking knowledge with DevOps practices to eliminate manual processes, reduce risk, and accelerate cloud migrations — especially for low-latency, business-critical workloads.
+Trusted technical authority who blends deep traditional networking expertise with modern DevOps practices to eliminate manual processes, reduce risk, and deliver complex projects on time.  
+
+**Currently providing independent consulting through Mplexia Limited (UK)** – immediately available for remote UK/EU contract and advisory roles at £550–£650/day.
 
 ## What I Deliver{#services}
 
@@ -38,6 +46,13 @@ Helping organizations with connectivity aspects of on-premise to AWS hybrid migr
 Practical assistance with AWS connectivity onboarding, partner integrations, and migrations. I specialize in analyzing your requirements and designing/implementing the most effective solution — combining Direct Connect, VPC Endpoints, peering, and hybrid models to deliver secure, low-latency, and optimized network performance.
 
 ## Recent Highlights
+### Mplexia Limited (2026 – Present)
+
+**Founder & Principal AWS Cloud Network Consultant**		
+
+- Providing expert AWS Cloud Network Consulting, Terraform automation, and GitOps solutions to MSPs, VARs, and AWS-heavy organisations on 3–12 month engagements or advisory basis.
+- Specialising in global multi-region/multi-account architectures, Transit Gateway designs, Direct Connect/VPN integrations, low-latency trading workloads, and full infrastructure automation.
+- Immediately available for remote UK/EU contract roles at £550–£650/day (project-based and retainer options available).
 
 ### Flextrade Systems (2018 – 2026)
 
@@ -64,6 +79,6 @@ I work selectively with MSPs, VARs and AWS-heavy organisations on 3–12 month e
 Book a 15-minute Discovery Call
 {{< /button >}}
 
-**+44 7756 678300** • **l.rozehnal@me.com**
+**+44 7756 678300** • **l.rozehnal@mplexia.com**
 
 *Mplexia Limited • UK Tax Resident • Fully Remote*
