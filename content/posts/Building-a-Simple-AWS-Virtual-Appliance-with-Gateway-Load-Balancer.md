@@ -6,7 +6,7 @@ title = 'Building a Simple AWS Virtual Appliance with Gateway Load Balancer'
 
 ## Introduction
 
-Few days ago, I revisited one of items in my 'todo one day' where I store various 'usecases' which I'd like to play with but usually I don't have enough of time to play with, but here we go: this time it's a plain EC2 behind AWS GWLB which can somehow 'inspect and /or manipulate' the traffic. Nothing special, just a plain linux-based router....
+A few days ago I revisited one of the items on my long-running "todo one day" list — various networking use cases I want to explore but rarely have time for. This time it was AWS GWLB + a simple Linux-based virtual appliance.
 
 ## Why this is beneficial
 
@@ -14,31 +14,36 @@ Many networking and security teams need to insert virtual appliances (firewalls,
 
 ## What is GWLB / GENEVE
 
-Gateway loadbalancer is one of Elastic Load Balancers (ELB) currently offered by AWS. The other load balancers - network (NLB) and application (ALB) are generic loadbalancer - nlb operates on L4 / TCP while alb operates on L7/HTTP plus there's certain option for manipulation of TLS/SSL  (so one can easily apply various modes as needed e.g. TLS offload for web servers) . Simplified, it's just a haproxy in AWS as native service.
-GWLB is different - it's not a classic "loadbalancer" - it's rather a way how AWS introduce network gateway for network virtualization or overlay network architecture in order to allow utilizing 3rd party appliances. To put it bluntly, it is what you have to do if you want to take a network traffic in one part of the network and bring it an appliance to inspect it.
-
-GENEVE is tunneling (or encapsulation) method defined under https://datatracker.ietf.org/doc/html/rfc8926 ; The name is a clever acronym: **Ge**neric **Ne**twork **V**irtualization **E**ncapsulation -> GENEVE. Unlike older protocols such as VXLAN, NVGRE, or GRE, GENEVE was designed from the ground up to be highly extensible. It uses flexible Type-Length-Value (TLV) options that allow carrying rich metadata between tunnel endpoints without breaking the base protocol. This makes it particularly well-suited for modern use cases like AWS Gateway Load Balancer (GWLB), where additional context (flow information, security tags, etc.) needs to be passed to virtual appliances.
+Gateway Load Balancer (GWLB) is one of the Elastic Load Balancers currently offered by AWS. The other load balancers — Network Load Balancer (NLB) and Application Load Balancer (ALB) — are more generic: NLB operates at L4 (TCP), while ALB operates at L7 (HTTP) with options for TLS/SSL manipulation. Simplified, they are like native HAProxy services in AWS.
+GWLB is different. It is not a classic load balancer. Instead, AWS designed it as a transparent network gateway that uses overlay networking (via GENEVE) to route traffic through third-party virtual appliances for inspection or manipulation.
+GENEVE (Generic Network Virtualization Encapsulation) is the tunneling/encapsulation protocol defined in RFC 8926. The name is a clever acronym: Generic Network Virtualization Encapsulation. Unlike older protocols such as VXLAN, NVGRE, or GRE, GENEVE was designed from the ground up to be highly extensible. It uses flexible Type-Length-Value (TLV) options that allow carrying rich metadata between tunnel endpoints without breaking the base protocol. This makes it particularly well-suited for modern use cases like AWS Gateway Load Balancer, where additional context (flow information, security tags, etc.) needs to be passed to virtual appliances.
 
 ## Scenario
 
-I wanted to go bit crazy but let's start with something super simple:
+I wanted to go a bit crazy, but decided to start simple.
 ![Initial](/images/posts/Building-a-Simple-AWS-Virtual-Appliance-with-Gateway-Load-Balancer/pic1.png)
- there's EC2 instace in public VPC (the EC2 instance has a public IP address assiged and full access to and from the public internet) and we want to inspect the traffic. The way how this is done is fairly straight-forward - we need to introduce the 'inspection' appliance (I am going to use plain Amazon Linux EC2), and put GWLB in front of this EC2 - the GWLB will work as the 'entry point' into our 'overlay'; Additionaly, as we don't want to impact overall routing within our to-be-inspected VPC / EC2, we are going to present the GWLB (which lives next to the appliance) as GWLB endpoint (GWLBe) within the to-be-inspected VPC, and we would just re-route traffic from EC2 toward GWLBe which would bring it to GWLB where the traffic is sent via GENEVE to our inspection appliance... fortunately a picture speaks thousand words 
+ The scenario is simple but effective: We have an EC2 instance in a public VPC with a public IP address and full internet access. Our goal is to inspect (or manipulate) its traffic.
+To achieve this, we introduce a Linux-based inspection appliance (a plain Amazon Linux EC2 instance) and place an AWS Gateway Load Balancer (GWLB) in front of it. The GWLB acts as the entry point into our overlay network.
+To avoid disrupting normal routing inside the client VPC, we expose the GWLB as a Gateway Load Balancer Endpoint (GWLBe) inside the same VPC. We then update the routing so that outbound traffic from the client EC2 is redirected toward this GWLBe. The endpoint forwards the traffic to the GWLB, which encapsulates it using GENEVE and sends it to the inspection appliance.
+(As usual — a picture speaks a thousand words.)
 ![Overall diagram](/images/posts/Building-a-Simple-AWS-Virtual-Appliance-with-Gateway-Load-Balancer/pic2.png)
 
  ## Deployment
  
- As usual (because I am a terraform purist) the scenario is deployed using terraform , the code is here: https://github.com/lrozehnal/aws_virtual_appliances_tests/tree/master/01-simples-aws-solution ;
+ As usual (because I am a Terraform purist) the scenario is deployed using Terraform. The code is available here: https://github.com/lrozehnal/aws_virtual_appliances_tests/tree/master/01-simples-aws-solution
 
  ## Solution
  
- Let me start by describing the solution - we are going to deploy two VPC - first  "clientVPC" with to-be-inspected "client EC2", and second  "inspect VPC" with  "inspect EC2". As the routing in AWS is tied to subnets (and we would need two different types of routing in clientVPC), we need to introduce two different subnet (in/ for the same AZ) - one for clientEC2 and other for GWLBe. Also there's internet gateway (igw) in clientVPC in order to make it public cloud with an access to public internet.  In "inspectVPC" we need just one subnet for GWLB and inspectEC2. There's also igw for simplifying the remote access ... 
- What slightly out of regular is routing for those individual subnets (remember, in AWS route-tables are tied to subnets and viceversa).
- In the clientVPC, there will be three distinct route-tables:
- The first subnet/route-table with "clientEC2" - it won't have default route towards local igw, but towards GWLBe(!) 
- The second subnet/route-table where gwlbe lives would have default route towards igw as usual.
- The third route-table present at clientVPC  is for igw (!)  in here it has to be specified, that the 0.0.0.0/0 (for return traffic) lives behind the gwlbe. (default route on igw towards gwlbe looks wild, but it impacts only return traffic, not the outbound)
- There's nothing special within the other VPC... just a regular VPC with GWLB and inspect EC2 (the 3rd appliance)
+ Let me start by describing the solution. We deploy two VPCs — a “clientVPC” with the to-be-inspected “client EC2”, and an “inspectVPC” with the “inspect EC2”.
+Because routing in AWS is tied to subnets, and we need two different routing behaviors in the clientVPC, we create two subnets in the same AZ: one for the client EC2 and one for the GWLBe. The clientVPC also has an Internet Gateway (IGW) to provide public internet access. The inspectVPC needs only one subnet for the GWLB and inspect EC2 (plus its own IGW for easy remote access).
+What makes this setup interesting is the custom routing required for the different subnets (remember, in AWS route tables are tied to subnets).
+In the clientVPC there are three distinct route tables:
+- The first (for clientEC2) has the default route (0.0.0.0/0) pointing toward the GWLBe instead of the IGW.
+- The second (for the GWLBe subnet) has the default route toward the IGW as usual.
+- The third (associated with the IGW) routes return traffic (0.0.0.0/0) back through the GWLBe.
+
+ The inspectVPC is straightforward — just a regular VPC with the GWLB and inspect EC2.
+
 ![When it's built](/images/posts/Building-a-Simple-AWS-Virtual-Appliance-with-Gateway-Load-Balancer/pic3.png)
  However what is needed on the inspect EC2 is GENEVE support. There are multiple ways how to make the linux EC2 GENEVE ready - native kernel, openvswitch but in the end I went for AWS GWLB Tunnel handler - https://github.com/aws-samples/aws-gateway-load-balancer-tunnel-handler.git (gwlbtun); generally get the binary, get a script which set up the tunnel interfaces and apply some "rules" - the exact exec is shown here:  https://github.com/lrozehnal/aws_virtual_appliances_tests/blob/master/01-simples-aws-solution/terraform/inspect-user-data.sh 
 
@@ -63,27 +68,30 @@ and it just works!
 
 Let's follow the packet:
 ![Follow the packet](/images/posts/Building-a-Simple-AWS-Virtual-Appliance-with-Gateway-Load-Balancer/pic4.png)
-1) there's nothing special on clientEC2 - the server got its IP address and default route configured when provissioned, using default VPC/subnet router (1st ip of the subnet)
-2) when the packet hits the vpc/subnet router, the 1st route-table is consulted - as there's specific route for 0.0.0.0/0 via gwlbe, the traffic is routed towards it
-3) well, traffic between endpoint and endpoint service is routed as part of AWS private link - it hits the GWLB endpoint and somehow popped up from the GWLB
-4) GWLB has inspectEC2 registered as the only target and hence the traffic is forwarded via the GENEVE tunnel towards EC2
-5) the inspectEC2 does nothing , plainly copy the packet from the inbound tunnel into outbound tunnel ... 
-6) ... and hence it will sent it back via GENEVE to GWLB 
-7) GWLB sent the traffic back to GWLBe via private link from InspectVPC to ClientVPC
-8) in ClientVPC, there's specific route within route-table for a subnet where GWLBe lives and therefore the packet is routed towards clientVPC's igw where the traffic is NATed to publicIP address of the clientEC2 (!! this is potentially important - even though the packet left the VPC, the packet is still NATed to public IP address of the clientEC!!)
+View link
 
-... and that's it - it might look  bit complicated but ... just follow the packet
+1) There’s nothing special on the clientEC2 — the server got its IP address and default route configured when provisioned, using the default VPC subnet router (1st IP of the subnet).
+2) When the packet hits the VPC subnet router, the first route table is consulted. Because there is a specific default route (0.0.0.0/0) via the GWLBe, the traffic is routed toward it.
+3) Traffic between the endpoint and endpoint service is handled as part of AWS PrivateLink. It hits the GWLB endpoint and is delivered to the GWLB.
+4) The GWLB has the inspectEC2 registered as the only target, so the traffic is forwarded via the GENEVE tunnel toward the EC2.
+5) The inspectEC2 does nothing — it simply copies the packet from the inbound tunnel to the outbound tunnel.
+6) The packet is sent back via GENEVE to the GWLB.
+7) The GWLB sends the traffic back to the GWLBe via PrivateLink from the inspectVPC to the clientVPC.
+8) In the clientVPC, there is a specific route in the route table for the subnet where the GWLBe lives, so the packet is routed toward the clientVPC’s IGW, where it is NATed to the public IP address of the clientEC2. (This is potentially important — even though the packet left the VPC, it is still NATed to the client EC2’s public IP!)
 
-For the return traffic
-9) the clientVPC uses it's custom route-table (it's for this return traffic only) and the return packet is routed toward GWLBe
-10)  the return packet is routed via privatelink from GWLBe to GWLB
-11)  GWLB sent it via GENEVE to inspect EC2
-12)  the inspect EC2 copy the return packet from inbound tunnel to outbound tunnel (note it's copy-paste, no ip routing is involved)
-13)  and the inspect EC2 sent return packet via GENEVE back to GWLB
-14)  GWLB sent the return packet via privatelink from InspectVPC to  GWLBe in ClientVPC
-15)  and finally, the GWLBe, using the local VPC route sents the packet back to EC2
+…and that’s it. It might look complicated, but just follow the packet.
+For the return traffic:
 
-and again, it just works
+9) The clientVPC uses its custom route table (for return traffic only) and the return packet is routed toward the GWLBe.
+10) The return packet is routed via PrivateLink from the GWLBe to the GWLB.
+11) The GWLB sends it via GENEVE to the inspect EC2.
+12) The inspect EC2 copies the return packet from the inbound tunnel to the outbound tunnel (note: copy-paste, no IP routing involved).
+13) The inspect EC2 sends the return packet via GENEVE back to the GWLB.
+14) The GWLB sends the return packet via PrivateLink from the inspectVPC to the GWLBe in the clientVPC.
+15) Finally, the GWLBe, using the local VPC route, sends the packet back to the client EC2.
+
+…and again, it just works.
+
 
 
 ```bash
@@ -123,11 +131,8 @@ tcpdump: listening on any, link-type LINUX_SLL2 (Linux cooked v2), snapshot leng
 [ec2-user@ip-10-2-0-11 ~]$ 
 
 ```
-the TCP dump shows the 1st packet in via in-tunnel(gwi-interface) and sending the same packet (2nd) back via out-tunnel(gwi-interface)
- (sa: 188.92.253.109 da: 10.1.0.24)
-followed by a reply - 3rd packet come in form in-tunnel(gwi-interface) followed by 4th packet (the same as 3rd) leaving via out-tunnel (gwo interface) (sa: 10.1.0.24 da: 188.92.253.109);  No routing on inspectEC2 involved. 
-
-I also tried to do a bit of filtering in 'tc' (traffic control as part of linux's iproute2) as I never done it before but let's be honest, it's not very user friendy:) (following is part of script used by gwlbtun ) https://github.com/lrozehnal/aws_virtual_appliances_tests/blob/master/02-simple-aws-solution-and-very-simple-filter/terraform/inspect-user-data.sh 
+The TCP dump shows the 1st packet arriving via the inbound tunnel (gwi interface) and being sent back via the outbound tunnel (gwo interface), and similarly for the reply. No routing is involved on the inspectEC2.
+I also tried a bit of filtering with tc (traffic control as part of Linux’s iproute2) as I had never done it before, but let’s be honest, it’s not very user-friendly. The following is part of the script used by gwlbtun:  https://github.com/lrozehnal/aws_virtual_appliances_tests/blob/master/02-simple-aws-solution-and-very-simple-filter/terraform/inspect-user-data.sh 
 ```bash
 
 # Drop TCP port 80
@@ -144,9 +149,10 @@ tc filter add dev "$2" parent ffff: protocol all prio 2 u32 match u32 0 0 flowid
 
 ## Let's use iptables and actually route the traffic
 
-In previous scenario, it's demonstrated that GENEVE actually works on EC2 but to be honest, without iptables and routing it's bit useless (my personal opinion)  I guess I can introduce linux namespaces to separate management (regular admin access) with routing for those tunnels... but let's not overcomplicate it ... I am going to change the default route on inspectEC2 to point towards the outbound GENEVE tunnel hence 'everything' will be automatically assumed to be routed back via GWLB.  As I am losing the management access, I need to put another EC2 - a bastion next to inspectEC2 to get myself and access back to inspectEC2 and additionally, I'd like to add squid http proxy on this bastionEC2 and redirect the http/https traffic as part of the inspection.
+In the previous scenario, it’s demonstrated that GENEVE actually works on EC2. But to be honest, without iptables and routing it’s a bit useless (in my personal opinion). I could introduce Linux namespaces to separate management access from routing for those tunnels, but let’s not overcomplicate it for now.
+I changed the default route on the inspectEC2 to point toward the outbound GENEVE tunnel, so everything is automatically routed back via the GWLB. Because I lose direct management access, I added another EC2 (a bastion) next to the inspectEC2. I also added a Squid HTTP proxy on the bastion and redirect HTTP/HTTPS traffic as part of the inspection.
 ![iptables and proxy](/images/posts/Building-a-Simple-AWS-Virtual-Appliance-with-Gateway-Load-Balancer/pic5.png)
-This is surprisingly more straightforward - as we already have / know how to deal with implementation of GENEVE and GWLB/GWLBe. we just need to tackle the script which is executed when the gwlbtun is started  - https://github.com/lrozehnal/aws_virtual_appliances_tests/blob/master/04-simple-aws-solution-and-routing-and-iptables/terraform/inspect-user-data.sh.tpl
+This turned out to be surprisingly straightforward. We already know how to handle GENEVE and GWLB/GWLBe, so we just needed to adjust the script that runs when gwlbtun starts:  - https://github.com/lrozehnal/aws_virtual_appliances_tests/blob/master/04-simple-aws-solution-and-routing-and-iptables/terraform/inspect-user-data.sh.tpl
 ```bash
 
 # === iptables - SAFE VERSION ===
@@ -184,36 +190,35 @@ iptables -A FORWARD -i "$IN_IFACE" -j ACCEPT
 iptables -A FORWARD -i "$OUT_IFACE" -j ACCEPT
 ```
 
-That's it: I want to block something to see the regular iptables firewall actually works: (this is from outside to EC2 on port 80)
+That’s it. I wanted to block something to see the regular iptables firewall actually work (this is from outside to EC2 on port 80):
 ```bash
 # === BLOCK PORT 80 inbound ===
 iptables -A FORWARD -i "$IN_IFACE" -p tcp -d 10.1.0.0/24 --dport 80 -j DROP
 ```
 
-and then I want to take any traffic from the clientVPC (where client/to-be-inspected EC2 lives) to port 80, are forward it to my bastionEC2 port 3128 where squid listen
+Then I wanted to take any traffic from the clientVPC (where the client/to-be-inspected EC2 lives) on port 80/443 and forward it to my bastionEC2 on port 3128 where Squid listens:
 ```bash
 iptables -t nat -A PREROUTING -i "$IN_IFACE" -s 10.1.0.0/24 -p tcp --dport 80 -j DNAT --to-destination $BASTION_IP:3128
 iptables -t nat -A PREROUTING -i "$IN_IFACE"  -s 10.1.0.0/24 -p tcp --dport 443 -j DNAT --to-destination $BASTION_IP:3128
 ```
-and PAT it (change the source IP) to IP address of the inspectEC2
+And PAT (change the source IP) to the IP address of the inspectEC2:
 ```bash
 iptables -t nat -A POSTROUTING -d $BASTION_IP -p tcp --dport 3128 -j MASQUERADE
 ```
 
-And it works super nicely...  I also wanted to run squid directly on inspectEC2 in transparent mode but I had troubles with and return traffic back via GENEVE so, there's another item for my todo-one-day list (transparent squid proxy behind GENEVE) :)
+And it works super nicely. I also wanted to run Squid directly on the inspectEC2 in transparent mode, but I had trouble with return traffic back via GENEVE, so that’s another item for my “todo one day” list (transparent Squid proxy behind GENEVE).
 
 ## WRAP UP
 
 This was a fun and educational exercise. What started as a simple “let’s pass traffic through an EC2 instance” quickly turned into a deeper understanding of how AWS Gateway Load Balancer, GENEVE encapsulation, routing, and iptables work together in real life.
 
 Key Takeaways
-GWLB + GENEVE is a powerful and clean way to insert virtual network appliances into your traffic path without massive re-architecture.
-Terraform makes these setups reproducible and version-controlled — highly recommended.
-Even a “simple” pass-through scenario requires careful attention to routing tables, MTU(potentially), and tunnel interfaces.
-Adding real inspection (iptables filtering, proxying, etc.) is straightforward once the base GENEVE tunnel works as it seems 'sky is the limit'
+- GWLB + GENEVE is a powerful and clean way to insert virtual network appliances into your traffic path without massive re-architecture.
+- Terraform makes these setups reproducible and version-controlled — highly recommended.
+- Even a “simple” pass-through scenario requires careful attention to routing tables, MTU(potentially), and tunnel interfaces.
+- Adding real inspection (iptables filtering, proxying, etc.) is straightforward once the base GENEVE tunnel works as it seems 'sky is the limit'
 
-The code for this series is available here:
-github.com/lrozehnal/aws_virtual_appliances_tests
+The code for this series is available here: https://github.com/lrozehnal/aws_virtual_appliances_tests 
 
 If you’re working with AWS networking, security appliances, or just want to better understand overlay/underlay architectures, feel free to check out the repo and let me know your thoughts or questions.
 Happy experimenting! 🚀
