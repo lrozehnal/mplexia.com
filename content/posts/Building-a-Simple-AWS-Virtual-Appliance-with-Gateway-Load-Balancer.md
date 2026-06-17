@@ -1,6 +1,6 @@
 +++
 date = '2026-06-17T18:13:36+02:00'
-draft = true
+draft = false
 title = 'Building a Simple AWS Virtual Appliance with Gateway Load Balancer'
 +++
 
@@ -201,7 +201,6 @@ iptables -t nat -A POSTROUTING -d $BASTION_IP -p tcp --dport 3128 -j MASQUERADE
 ```
 
 And it works super nicely...  I also wanted to run squid directly on inspectEC2 in transparent mode but I had troubles with and return traffic back via GENEVE so, there's another item for my todo-one-day list (transparent squid proxy behind GENEVE) :)
-
 
 ## WRAP UP
 
