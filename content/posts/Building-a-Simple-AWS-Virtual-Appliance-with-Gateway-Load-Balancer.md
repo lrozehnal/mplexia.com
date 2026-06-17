@@ -23,18 +23,18 @@ GENEVE is tunneling (or encapsulation) method defined under https://datatracker.
 
 I wanted to go bit crazy but let's start with something super simple:
 ![Initial](/images/posts/Building-a-Simple-AWS-Virtual-Appliance-with-Gateway-Load-Balancer/pic1.png)
- there's EC2 instace in public VPC (the EC2 instance has a public IP address assiged and full access to and from the public internet) and we want to inspect the traffic. The way how this is done is fairly straight-forward - we need to introduce the 'inspection' appliance (I am going to use plain Amazon Linux EC2), and put GWLB in front of this EC2 - the GWLB will work as the 'entry point' into our 'overlay'; Additionaly, as we don't want to impact overall routing within our to-be-inspected VPC / EC2, we are going to present the GWLB (which lives next to the appliance) as GWLB endpoint (GWLBe) within the to-be-inspected VPC, and we would just re-route traffic from EC2 toward GWLBe which would bring it to GWLB where the traffic is sent via GENEVE to our inspection appliacnce... fortunately a picture speaks thousand words 
+ there's EC2 instace in public VPC (the EC2 instance has a public IP address assiged and full access to and from the public internet) and we want to inspect the traffic. The way how this is done is fairly straight-forward - we need to introduce the 'inspection' appliance (I am going to use plain Amazon Linux EC2), and put GWLB in front of this EC2 - the GWLB will work as the 'entry point' into our 'overlay'; Additionaly, as we don't want to impact overall routing within our to-be-inspected VPC / EC2, we are going to present the GWLB (which lives next to the appliance) as GWLB endpoint (GWLBe) within the to-be-inspected VPC, and we would just re-route traffic from EC2 toward GWLBe which would bring it to GWLB where the traffic is sent via GENEVE to our inspection appliance... fortunately a picture speaks thousand words 
 ![Overall diagram](/images/posts/Building-a-Simple-AWS-Virtual-Appliance-with-Gateway-Load-Balancer/pic2.png)
 
  ## Deployment
  
- As usual (because I am a terraform ~nazi~ purist) the scenario is deployed using terraform , the code is here: https://github.com/lrozehnal/aws_virtual_appliances_tests/tree/master/01-simples-aws-solution ;
+ As usual (because I am a terraform purist) the scenario is deployed using terraform , the code is here: https://github.com/lrozehnal/aws_virtual_appliances_tests/tree/master/01-simples-aws-solution ;
 
  ## Solution
  
- Let me start by describing the solution - we are going to deploy two VPC - first  "clientVPC" with to-be-inspected "client EC2", and second  "inspect VPC" with  "inspect EC2". As the routing in AWS is tied to subnets (and we would need two different types of routing in clientVPC), we need to introduce two different subnet (in/ for the same AZ) - one for clientEC2 and other for GWLBe. Also there's internet gateway (igw) in clientVPC in order to make it public cloud with an access to public internet.  In "inspectVPC" we need just one subnet for GWLB and inspectEC2. There's also igw for simplyfing the remote access ... 
+ Let me start by describing the solution - we are going to deploy two VPC - first  "clientVPC" with to-be-inspected "client EC2", and second  "inspect VPC" with  "inspect EC2". As the routing in AWS is tied to subnets (and we would need two different types of routing in clientVPC), we need to introduce two different subnet (in/ for the same AZ) - one for clientEC2 and other for GWLBe. Also there's internet gateway (igw) in clientVPC in order to make it public cloud with an access to public internet.  In "inspectVPC" we need just one subnet for GWLB and inspectEC2. There's also igw for simplifying the remote access ... 
  What slightly out of regular is routing for those individual subnets (remember, in AWS route-tables are tied to subnets and viceversa).
- In the clientVPC, there will be three distinquish route-tables:
+ In the clientVPC, there will be three distinct route-tables:
  The first subnet/route-table with "clientEC2" - it won't have default route towards local igw, but towards GWLBe(!) 
  The second subnet/route-table where gwlbe lives would have default route towards igw as usual.
  The third route-table present at clientVPC  is for igw (!)  in here it has to be specified, that the 0.0.0.0/0 (for return traffic) lives behind the gwlbe. (default route on igw towards gwlbe looks wild, but it impacts only return traffic, not the outbound)
@@ -44,7 +44,7 @@ I wanted to go bit crazy but let's start with something super simple:
 
  When the gwlbtun service is started, it will introduce two uni-directional tunnels, one tunnel is being used for traffic from GWLB and the other is supposed to be use by the appliance for sending the traffic back to GWLB - so for the most simple scenario, we just to want to confirm all is working as expected, hence we would take whatever comes in via in-tunnel and put in back out via out-tunnel
 
- In this partucular case, there's this line:
+ In this particular case, there's this line:
  ```bash
  tc filter add dev "$2" parent ffff: protocol all prio 2 u32 match u32 0 0 flowid 1:1 action mirred egress mirror dev "$3"
  ```
@@ -70,7 +70,7 @@ Let's follow the packet:
 5) the inspectEC2 does nothing , plainly copy the packet from the inbound tunnel into outbound tunnel ... 
 6) ... and hence it will sent it back via GENEVE to GWLB 
 7) GWLB sent the traffic back to GWLBe via private link from InspectVPC to ClientVPC
-8) in ClientVPC, there's specific route within route-table for a subnet where GWLBe lives and therefore the packet is routed towars clientVPC's igw where the traffic is NAT'ed to publicIP address of the clientEC2 (!! this is potentially important - even though the packet left the VPC, the packet is still NAT'ed to public IP address of the clientEC!!)
+8) in ClientVPC, there's specific route within route-table for a subnet where GWLBe lives and therefore the packet is routed towards clientVPC's igw where the traffic is NATed to publicIP address of the clientEC2 (!! this is potentially important - even though the packet left the VPC, the packet is still NATed to public IP address of the clientEC!!)
 
 ... and that's it - it might look  bit complicated but ... just follow the packet
 
@@ -144,9 +144,9 @@ tc filter add dev "$2" parent ffff: protocol all prio 2 u32 match u32 0 0 flowid
 
 ## Let's use iptables and actually route the traffic
 
-In previous scenario, it's demontrated that GENEVE actually works on EC2 but to be honest, without iptables and routing it's bit useless (my personal opinion)  I guess I can introduce linux namespaces to separate management (regular admin access) with routing for those tunnels... but let's not overcomplicate it ... I am going to change the default route on inspectEC2 to point towards the outbound GENEVE tunnel hence 'everything' will be automatically assumed to be routed back via GWLB.  As I am losing the management access, I need to put another EC2 - a bastion next to inspectEC2 to get myself and access back to inspectEC2 and additionally, I'd like to add squid http proxy on this bastionEC2 and redirect the http/https traffic as part of the inspection.
+In previous scenario, it's demonstrated that GENEVE actually works on EC2 but to be honest, without iptables and routing it's bit useless (my personal opinion)  I guess I can introduce linux namespaces to separate management (regular admin access) with routing for those tunnels... but let's not overcomplicate it ... I am going to change the default route on inspectEC2 to point towards the outbound GENEVE tunnel hence 'everything' will be automatically assumed to be routed back via GWLB.  As I am losing the management access, I need to put another EC2 - a bastion next to inspectEC2 to get myself and access back to inspectEC2 and additionally, I'd like to add squid http proxy on this bastionEC2 and redirect the http/https traffic as part of the inspection.
 ![iptables and proxy](/images/posts/Building-a-Simple-AWS-Virtual-Appliance-with-Gateway-Load-Balancer/pic5.png)
-This is surprisingly more straightforward - as we already have / know how to deal with implemantaion of GENEVE and GWLB/GWLBe. we just need to tackle the script which is executed when the gwlbtun is started  - https://github.com/lrozehnal/aws_virtual_appliances_tests/blob/master/04-simple-aws-solution-and-routing-and-iptables/terraform/inspect-user-data.sh.tpl
+This is surprisingly more straightforward - as we already have / know how to deal with implementation of GENEVE and GWLB/GWLBe. we just need to tackle the script which is executed when the gwlbtun is started  - https://github.com/lrozehnal/aws_virtual_appliances_tests/blob/master/04-simple-aws-solution-and-routing-and-iptables/terraform/inspect-user-data.sh.tpl
 ```bash
 
 # === iptables - SAFE VERSION ===
