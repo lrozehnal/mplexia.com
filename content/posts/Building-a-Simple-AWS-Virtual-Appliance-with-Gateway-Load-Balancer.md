@@ -212,12 +212,12 @@ And it works super nicely. I also wanted to run Squid directly on the inspectEC2
 
 This was a fun and educational exercise. What started as a simple “let’s pass traffic through an EC2 instance” quickly turned into a deeper understanding of how AWS Gateway Load Balancer, GENEVE encapsulation, routing, and iptables work together in real life.
 
-Key Takeaways
+**Key Takeaways**
 - GWLB + GENEVE is a powerful and clean way to insert virtual network appliances into your traffic path without massive re-architecture.
 - Terraform makes these setups reproducible and version-controlled — highly recommended.
-- Even a “simple” pass-through scenario requires careful attention to routing tables, MTU(potentially), and tunnel interfaces.
-- Adding real inspection (iptables filtering, proxying, etc.) is straightforward once the base GENEVE tunnel works as it seems 'sky is the limit'
-
+- Even a “simple” pass-through scenario requires careful attention to routing tables, MTU, and tunnel interfaces.
+- Adding real inspection (iptables filtering, proxying, etc.) is straightforward once the base GENEVE tunnel works. The sky really is the limit.
+- 
 The code for this series is available here: https://github.com/lrozehnal/aws_virtual_appliances_tests 
 
 If you’re working with AWS networking, security appliances, or just want to better understand overlay/underlay architectures, feel free to check out the repo and let me know your thoughts or questions.
