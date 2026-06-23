@@ -17,8 +17,8 @@ After the initial call we agreed on the key constraints:
 
 - The client was using Terraform, but their Production and UAT environments were strictly separated — two completely independent Terraform deployments. They wanted to keep it that way.
 - The data provider could offer either:
-- - Direct Connect with Virtual Interfaces + BGP, or
-- - A shared AWS Direct Connect Gateway (DXGW).
+- - Direct Connect with Virtual Interfaces + BGP using TGW, or
+- - A shared AWS Direct Connect Gateway (DXGW) using TGW.
 - The client was not using Transit Gateway (TGW) and was hesitant to introduce one across their environments.
 
 ## The Proposed Solution
@@ -39,7 +39,7 @@ This was the interesting part. We had three options:
 
 - Put everything in us-east-1 (closest to the data provider)
 - Put everything in ap-southeast-2 (closest to the consumer)
-- Put the Endpoint Service in us-west-1 (geographically in the middle)
+- Put the Endpoint Service in us-west-1 (geographically in the middle). Based on my previous experience, this option had a good chance of reducing jitter-related issues.
 
 I decided to test it.
 
