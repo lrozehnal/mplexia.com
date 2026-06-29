@@ -1,7 +1,7 @@
 ---
 title: "Building a Simple AWS Virtual Appliance with FortiGate and Gateway Load Balancer"
 date: 2026-06-29T10:00:00+02:00
-draft: true
+draft: false
 tags: ["AWS", "GWLB", "FortiGate", "Terraform", "Networking", "Geneve", "CloudSecurity"]
 categories: ["AWS", "Networking"]
 ---
