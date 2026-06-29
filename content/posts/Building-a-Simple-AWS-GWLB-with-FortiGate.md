@@ -6,8 +6,6 @@ tags: ["AWS", "GWLB", "FortiGate", "Terraform", "Networking", "Geneve", "CloudSe
 categories: ["AWS", "Networking"]
 ---
 
-# Building a Simple AWS Virtual Appliance with FortiGate and Gateway Load Balancer
-
 After exploring a plain Linux-based transparent appliance with AWS **Gateway Load Balancer (GWLB)** and GENEVE, I wanted to test a more production-like security appliance. FortiGate (Fortinet's virtual NGFW) was the natural next step.
 
 This is a continuation of the series. You can find the first article here:  
@@ -15,6 +13,8 @@ This is a continuation of the series. You can find the first article here:
 
 Full Terraform code:  
 [https://github.com/lrozehnal/aws_virtual_appliances_tests/tree/master/03-simple-using-fortigate](https://github.com/lrozehnal/aws_virtual_appliances_tests/tree/master/03-simple-using-fortigate)
+
+![Overall diagram](/images/posts/Building-a-Simple-AWS-GWLB-with-FortiGate/pic1.png)
 
 ## Why FortiGate with GWLB?
 
@@ -33,7 +33,7 @@ Traffic flow:
 3. GWLB → GENEVE tunnel → FortiGate  
 4. FortiGate inspects and returns traffic via GENEVE → GWLB → client
 
-I also added a second FortiGate instance to demonstrate how GWLB can load balance traffic across multiple appliances. I used the 1-ARM FortiGate version, which is sufficient for this test. I quite like the simplicify using the tunnel for returning the tunnel after the inspection to whence it cames. The FortiGate is configured to accept traffic from the GENEVE tunnel and return it back through the same tunnel.
+I also added a second FortiGate instance to demonstrate how GWLB can load balance traffic across multiple appliances. I used the 1-ARM FortiGate version, which is sufficient for this test. I quite like the simplicicy using the tunnel for returning the tunnel after the inspection to whence it came. The FortiGate is configured to accept traffic from the GENEVE tunnel and return it back through the same tunnel.
 
 ## Deployment with Terraform
 
@@ -44,8 +44,8 @@ Key highlights:
 - Uses the official **FortiGate-VM64-AWSONDEMAND** AMI from AWS Marketplace.
 - Instance type: `t3.medium` (adjust based on needs).
 - `source_dest_check = false` (required for routing).
-- User data template injects the initial FortiGate configuration. I was nicely surprised that FortiGate supports cloud-init style user data, which simplifies the initial setup. Including the changing of the initial password and basic network configuration.
-- One of the parametrs required by Fortinet is the remote IP of the GENEVE tunnel. This is passed as a variable to the user data template. Annoyingly this is not part of provided GWLB resource and had to be looked up separately).
+- User data template injects the initial FortiGate configuration. I was pleasantly surprised that FortiGate supports cloud-init style user data, which simplifies the initial setup. Including the changing of the initial password and basic network configuration.
+- One of the parametrs required by Fortinet is the remote IP of the GENEVE tunnel. This is passed as a variable to the user data template. Annoyingly, this is not directly available from the GWLB resource.
 
 ### FortiGate User Data (fortinet-userdata.tpl)
 
