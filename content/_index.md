@@ -32,7 +32,7 @@ Proven track record designing, delivering, and fully automating global-scale, mu
 
 Trusted technical authority who blends deep traditional networking expertise with modern DevOps practices to eliminate manual processes, reduce risk, and deliver complex projects on time.  
 
-**Currently providing independent consulting through Mplexia Limited (UK)** – immediately available for remote UK/EU contract and advisory roles at £550–£650/day.
+**Currently providing independent consulting through Mplexia Limited (UK)** – immediately available for remote UK/EU contract and advisory roles at £500–£650/day.
 
 ## What I Deliver{#services}
 
