@@ -52,7 +52,7 @@ Practical assistance with AWS connectivity onboarding, partner integrations, and
 
 - Providing expert AWS Cloud Network Consulting, Terraform automation, and GitOps solutions to MSPs, VARs, and AWS-heavy organisations on 3–12 month engagements or advisory basis.
 - Specialising in global multi-region/multi-account architectures, Transit Gateway designs, Direct Connect/VPN integrations, low-latency trading workloads, and full infrastructure automation.
-- Immediately available for remote UK/EU contract roles at £550–£650/day (project-based and retainer options available).
+- Immediately available for remote UK/EU contract roles at £500–£650/day (project-based and retainer options available).
 
 ### Flextrade Systems (2018 – 2026)
 
@@ -65,7 +65,7 @@ Practical assistance with AWS connectivity onboarding, partner integrations, and
 
 ## 2026 Consulting Rates
 
-**£550 – £650 per day**
+**£500 – £650 per day**
 
 Hourly (£145–£165), project-based and retainer options also available.
 
