@@ -14,10 +14,17 @@
   name = "Posts"
   pageRef = "posts"
   weight = 1000
+
+  [[main]]
+  name = "Portfolio"
+  url = "/portfolio/"
+  weight = 1001          # Lower number = appears earlier
+
+
 [[main]]
   name = ""                    # Leave empty = icon only
   url = "https://www.linkedin.com/in/ludek-rozehnal-57b6064/"   # ← Replace with your real LinkedIn URL
-  weight = 1001
+  weight = 1999
   pre = "linkedin"             # This shows the LinkedIn icon
 
 [[main]]
