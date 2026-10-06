@@ -1,1 +1,5 @@
 "name" : "mplexia.com"
+vpc:
+  eu-west-2:
+    "name" : "eu-west-2"
+    "cidr" : "10.2.0.0/16"
