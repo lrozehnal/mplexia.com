@@ -159,7 +159,7 @@ resource "aws_route53_record" "uk-proxy" {
   name    = "uk-proxy.${local.aws_config_env.name}."
   type    = "A"
   ttl     = 300
-  records = [aws_instance.uk-proxy.public_ip]
+  records = [aws_eip.eu_west_2.public_ip]
 }
 
 
